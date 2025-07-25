@@ -1,7 +1,8 @@
 "use client";
 
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider as NextThemeProvider } from "next-themes";
 import { ReactNode } from "react";
+import StyledComponentsRegistry from "../lib/registry";
 
 interface ProvidersProps {
   children: ReactNode;
@@ -9,8 +10,10 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      {children}
-    </ThemeProvider>
+    <StyledComponentsRegistry>
+      <NextThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        {children}
+      </NextThemeProvider>
+    </StyledComponentsRegistry>
   );
 }

@@ -1,6 +1,233 @@
+"use client";
+
 import { ThemeToggle } from "./components/ThemeToggle";
 import { SocialLinks } from "./components/SocialLinks";
 import { Timeline } from "./components/Timeline";
+import styled from "styled-components";
+
+const PageContainer = styled.div`
+  min-height: 100vh;
+`;
+
+const Header = styled.header`
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gray-200);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-bottom-color: var(--gray-800);
+  }
+
+  .dark & {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-bottom-color: var(--gray-800);
+  }
+`;
+
+const HeaderContent = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const HeaderTitle = styled.h1`
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+`;
+
+const Main = styled.main`
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+`;
+
+const HeroSection = styled.section`
+  text-align: center;
+  margin-bottom: 4rem;
+`;
+
+const HeroContent = styled.div`
+  margin-bottom: 2rem;
+`;
+
+const Avatar = styled.div`
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto 1.5rem;
+  border-radius: 9999px;
+  background-color: var(--gray-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--gray-700);
+  }
+
+  .dark & {
+    background-color: var(--gray-700);
+  }
+`;
+
+const AvatarText = styled.span`
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--gray-600);
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--gray-400);
+  }
+
+  .dark & {
+    color: var(--gray-400);
+  }
+`;
+
+const HeroTitle = styled.h1`
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+`;
+
+const HeroSubtitle = styled.p`
+  font-size: 1.25rem;
+  color: var(--gray-600);
+  margin-bottom: 1.5rem;
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--gray-400);
+  }
+
+  .dark & {
+    color: var(--gray-400);
+  }
+`;
+
+const HeroDescription = styled.p`
+  color: var(--gray-600);
+  max-width: 1536px;
+  margin: 0 auto;
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--gray-400);
+  }
+
+  .dark & {
+    color: var(--gray-400);
+  }
+`;
+
+const TimelineSection = styled.section`
+  margin-bottom: 4rem;
+`;
+
+const TimelineTitle = styled.h2`
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--foreground);
+`;
+
+const ContactSection = styled.section`
+  margin-top: 4rem;
+  text-align: center;
+`;
+
+const ContactTitle = styled.h2`
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+`;
+
+const ContactDescription = styled.p`
+  color: var(--gray-600);
+  margin-bottom: 1.5rem;
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--gray-400);
+  }
+
+  .dark & {
+    color: var(--gray-400);
+  }
+`;
+
+const ContactActions = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+`;
+
+const EmailButton = styled.a`
+  padding: 0.75rem 1.5rem;
+  background-color: var(--black);
+  color: var(--white);
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--gray-800);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--white);
+    color: var(--black);
+
+    &:hover {
+      background-color: var(--gray-200);
+    }
+  }
+
+  .dark & {
+    background-color: var(--white);
+    color: var(--black);
+
+    &:hover {
+      background-color: var(--gray-200);
+    }
+  }
+`;
+
+const Footer = styled.footer`
+  border-top: 1px solid var(--gray-200);
+  margin-top: 4rem;
+
+  @media (prefers-color-scheme: dark) {
+    border-top-color: var(--gray-800);
+  }
+
+  .dark & {
+    border-top-color: var(--gray-800);
+  }
+`;
+
+const FooterContent = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: var(--gray-600);
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--gray-400);
+  }
+
+  .dark & {
+    color: var(--gray-400);
+  }
+`;
 
 // Sample timeline data - replace with your actual data
 const timelineData = [
@@ -76,69 +303,62 @@ const timelineData = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <PageContainer>
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-semibold">Joe Sanchez Su</h1>
+      <Header>
+        <HeaderContent>
+          <HeaderTitle>Joe Sanchez Su</HeaderTitle>
           <ThemeToggle />
-        </div>
-      </header>
+        </HeaderContent>
+      </Header>
 
-      <main className="max-w-4xl mx-auto px-6 py-12">
+      <Main>
         {/* Hero Section */}
-        <section className="text-center mb-16">
-          <div className="mb-8">
+        <HeroSection>
+          <HeroContent>
             {/* Replace with your actual photo */}
-            <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center">
-              <span className="text-4xl font-bold text-gray-600 dark:text-gray-400">
-                JS
-              </span>
-            </div>
-            <h1 className="text-4xl font-bold mb-4">Joe Sanchez Su</h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 mb-6">
+            <Avatar>
+              <AvatarText>JS</AvatarText>
+            </Avatar>
+            <HeroTitle>Joe Sanchez Su</HeroTitle>
+            <HeroSubtitle>
               Software Engineer passionate about building impactful applications
-            </p>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            </HeroSubtitle>
+            <HeroDescription>
               I&apos;m a full-stack developer with experience in modern web technologies,
               mobile development, and cloud platforms. I love creating user-centered
               solutions that solve real-world problems.
-            </p>
-          </div>
+            </HeroDescription>
+          </HeroContent>
 
-          <SocialLinks className="justify-center" />
-        </section>
+          <SocialLinks justifyCenter />
+        </HeroSection>
 
         {/* Timeline Section */}
-        <section>
-          <h2 className="text-3xl font-bold mb-8 text-center">Career Journey</h2>
+        <TimelineSection>
+          <TimelineTitle>Career Journey</TimelineTitle>
           <Timeline items={timelineData} />
-        </section>
+        </TimelineSection>
 
         {/* Contact Section */}
-        <section className="mt-16 text-center">
-          <h2 className="text-3xl font-bold mb-4">Get In Touch</h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <ContactSection>
+          <ContactTitle>Get In Touch</ContactTitle>
+          <ContactDescription>
             I&apos;m always interested in new opportunities and collaborations.
-          </p>
-          <div className="flex justify-center space-x-4">
-            <a
-              href="mailto:joe@example.com"
-              className="px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
-            >
-              Email Me
-            </a>
+          </ContactDescription>
+          <ContactActions>
+            <EmailButton href="mailto:joe@example.com">Email Me</EmailButton>
             <SocialLinks />
-          </div>
-        </section>
-      </main>
+          </ContactActions>
+        </ContactSection>
+      </Main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 dark:border-gray-800 mt-16">
-        <div className="max-w-4xl mx-auto px-6 py-8 text-center text-gray-600 dark:text-gray-400">
-          <p>&copy; 2024 Joe Sanchez Su. Built with Next.js and Tailwind CSS.</p>
-        </div>
-      </footer>
-    </div>
+      <Footer>
+        <FooterContent>
+          <p>&copy; 2024 Joe Sanchez Su. Built with Next.js and Styled Components.</p>
+        </FooterContent>
+      </Footer>
+    </PageContainer>
   );
 }

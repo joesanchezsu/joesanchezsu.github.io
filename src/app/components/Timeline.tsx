@@ -1,4 +1,271 @@
+"use client";
+
 import { Calendar, MapPin, ExternalLink } from "lucide-react";
+import styled from "styled-components";
+
+const TimelineContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+const TimelineItemContainer = styled.div`
+  position: relative;
+`;
+
+const TimelineLine = styled.div`
+  position: absolute;
+  left: 1.5rem;
+  top: 4rem;
+  bottom: 0;
+  width: 0.125rem;
+  background-color: var(--gray-300);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--gray-600);
+  }
+
+  .dark & {
+    background-color: var(--gray-600);
+  }
+`;
+
+const TimelineContent = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+`;
+
+const TimelineDot = styled.div<{ $type: "work" | "internship" | "study" }>`
+  position: relative;
+  z-index: 10;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background-color: ${({ $type }) => {
+    switch ($type) {
+      case "work":
+        return "var(--blue-500)";
+      case "internship":
+        return "var(--green-500)";
+      case "study":
+        return "var(--purple-500)";
+      default:
+        return "var(--gray-500)";
+    }
+  }};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: 500;
+`;
+
+const ContentArea = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const MetaInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--gray-500);
+  margin-bottom: 0.25rem;
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--gray-400);
+  }
+
+  .dark & {
+    color: var(--gray-400);
+  }
+`;
+
+const TypeBadge = styled.span<{ $type: "work" | "internship" | "study" }>`
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: ${({ $type }) => {
+    switch ($type) {
+      case "work":
+        return "var(--blue-500)";
+      case "internship":
+        return "var(--green-500)";
+      case "study":
+        return "var(--purple-500)";
+      default:
+        return "var(--gray-500)";
+    }
+  }};
+  color: var(--white);
+`;
+
+const MetaItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+`;
+
+const Icon = styled.div`
+  width: 1rem;
+  height: 1rem;
+  color: var(--gray-500);
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--gray-400);
+  }
+
+  .dark & {
+    color: var(--gray-400);
+  }
+`;
+
+const Title = styled.h3`
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+`;
+
+const Company = styled.p`
+  font-size: 1.125rem;
+  color: var(--gray-600);
+  margin-top: 0;
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--gray-300);
+  }
+
+  .dark & {
+    color: var(--gray-300);
+  }
+`;
+
+const Description = styled.p`
+  color: var(--gray-600);
+  margin-top: 0.5rem;
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--gray-400);
+  }
+
+  .dark & {
+    color: var(--gray-400);
+  }
+`;
+
+const ProjectsSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const ProjectsTitle = styled.h4`
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+`;
+
+const ProjectsGrid = styled.div`
+  display: grid;
+  gap: 1rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
+const ProjectCard = styled.div`
+  padding: 1rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+
+  @media (prefers-color-scheme: dark) {
+    border-color: var(--gray-700);
+  }
+
+  .dark & {
+    border-color: var(--gray-700);
+  }
+`;
+
+const ProjectHeader = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+`;
+
+const ProjectTitle = styled.h5`
+  font-weight: 500;
+  color: var(--foreground);
+`;
+
+const ProjectLink = styled.a`
+  color: var(--blue-500);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--blue-600);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--blue-400);
+
+    &:hover {
+      color: var(--blue-300);
+    }
+  }
+
+  .dark & {
+    color: var(--blue-400);
+
+    &:hover {
+      color: var(--blue-300);
+    }
+  }
+`;
+
+const ProjectDescription = styled.p`
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  margin-bottom: 0.75rem;
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--gray-400);
+  }
+
+  .dark & {
+    color: var(--gray-400);
+  }
+`;
+
+const TechStack = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+`;
+
+const TechTag = styled.span`
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  background-color: var(--gray-100);
+  border-radius: 0.25rem;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--gray-800);
+  }
+
+  .dark & {
+    background-color: var(--gray-800);
+  }
+`;
 
 interface Project {
   title: string;
@@ -24,19 +291,6 @@ interface TimelineProps {
 }
 
 export function Timeline({ items }: TimelineProps) {
-  const getTypeColor = (type: TimelineItem["type"]) => {
-    switch (type) {
-      case "work":
-        return "bg-blue-500";
-      case "internship":
-        return "bg-green-500";
-      case "study":
-        return "bg-purple-500";
-      default:
-        return "bg-gray-500";
-    }
-  };
-
   const getTypeLabel = (type: TimelineItem["type"]) => {
     switch (type) {
       case "work":
@@ -51,97 +305,76 @@ export function Timeline({ items }: TimelineProps) {
   };
 
   return (
-    <div className="space-y-8">
+    <TimelineContainer>
       {items.map((item, index) => (
-        <div key={item.id} className="relative">
+        <TimelineItemContainer key={item.id}>
           {/* Timeline line */}
-          {index < items.length - 1 && (
-            <div className="absolute left-6 top-16 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-600" />
-          )}
+          {index < items.length - 1 && <TimelineLine />}
 
-          <div className="flex items-start space-x-6">
+          <TimelineContent>
             {/* Timeline dot */}
-            <div
-              className={`relative z-10 w-12 h-12 rounded-full ${getTypeColor(
-                item.type
-              )} flex items-center justify-center text-white text-xs font-medium`}
-            >
-              {index + 1}
-            </div>
+            <TimelineDot $type={item.type}>{index + 1}</TimelineDot>
 
             {/* Content */}
-            <div className="flex-1 space-y-4">
+            <ContentArea>
               <div>
-                <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-1">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(
-                      item.type
-                    )} text-white`}
-                  >
-                    {getTypeLabel(item.type)}
-                  </span>
-                  <div className="flex items-center space-x-1">
-                    <Calendar className="w-4 h-4" />
+                <MetaInfo>
+                  <TypeBadge $type={item.type}>{getTypeLabel(item.type)}</TypeBadge>
+                  <MetaItem>
+                    <Icon>
+                      <Calendar />
+                    </Icon>
                     <span>{item.period}</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <MapPin className="w-4 h-4" />
+                  </MetaItem>
+                  <MetaItem>
+                    <Icon>
+                      <MapPin />
+                    </Icon>
                     <span>{item.location}</span>
-                  </div>
-                </div>
+                  </MetaItem>
+                </MetaInfo>
 
-                <h3 className="text-xl font-semibold">{item.title}</h3>
-                <p className="text-lg text-gray-600 dark:text-gray-300">{item.company}</p>
-                <p className="text-gray-600 dark:text-gray-400 mt-2">
-                  {item.description}
-                </p>
+                <Title>{item.title}</Title>
+                <Company>{item.company}</Company>
+                <Description>{item.description}</Description>
               </div>
 
               {/* Projects */}
               {item.projects.length > 0 && (
-                <div className="space-y-4">
-                  <h4 className="text-lg font-semibold">Key Projects</h4>
-                  <div className="grid gap-4 md:grid-cols-2">
+                <ProjectsSection>
+                  <ProjectsTitle>Key Projects</ProjectsTitle>
+                  <ProjectsGrid>
                     {item.projects.map((project, projectIndex) => (
-                      <div
-                        key={projectIndex}
-                        className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-                      >
-                        <div className="flex items-start justify-between mb-2">
-                          <h5 className="font-medium">{project.title}</h5>
+                      <ProjectCard key={projectIndex}>
+                        <ProjectHeader>
+                          <ProjectTitle>{project.title}</ProjectTitle>
                           {project.link && (
-                            <a
+                            <ProjectLink
                               href={project.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
                             >
-                              <ExternalLink className="w-4 h-4" />
-                            </a>
+                              <Icon>
+                                <ExternalLink />
+                              </Icon>
+                            </ProjectLink>
                           )}
-                        </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                          {project.description}
-                        </p>
-                        <div className="flex flex-wrap gap-1">
+                        </ProjectHeader>
+                        <ProjectDescription>{project.description}</ProjectDescription>
+                        <TechStack>
                           {project.tech.map((tech, techIndex) => (
-                            <span
-                              key={techIndex}
-                              className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 rounded"
-                            >
-                              {tech}
-                            </span>
+                            <TechTag key={techIndex}>{tech}</TechTag>
                           ))}
-                        </div>
-                      </div>
+                        </TechStack>
+                      </ProjectCard>
                     ))}
-                  </div>
-                </div>
+                  </ProjectsGrid>
+                </ProjectsSection>
               )}
-            </div>
-          </div>
-        </div>
+            </ContentArea>
+          </TimelineContent>
+        </TimelineItemContainer>
       ))}
-    </div>
+    </TimelineContainer>
   );
 }
