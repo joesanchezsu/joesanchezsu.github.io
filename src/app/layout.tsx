@@ -14,14 +14,16 @@ export const metadata: Metadata = {
     "Personal portfolio showcasing my career journey, projects, and experience",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.variable}>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="inter-font">
         <Providers>{children}</Providers>
       </body>
     </html>
