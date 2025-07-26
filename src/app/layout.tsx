@@ -17,13 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="inter-font">
+      <body className={inter.variable}>
         <Providers>{children}</Providers>
       </body>
     </html>
