@@ -58,7 +58,7 @@ const TimelineDot = styled.div<{ $type: "work" | "internship" | "study" }>`
   align-items: center;
   justify-content: center;
   color: var(--white);
-  font-size: 0.75rem;
+  font-size: 1rem;
   font-weight: 500;
 `;
 
@@ -72,7 +72,7 @@ const ContentArea = styled.div`
 const MetaInfo = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
   font-size: 0.875rem;
   color: var(--gray-500);
   margin-bottom: 0.25rem;
@@ -87,9 +87,9 @@ const MetaInfo = styled.div`
 `;
 
 const TypeBadge = styled.span<{ $type: "work" | "internship" | "study" }>`
-  padding: 0.25rem 0.5rem;
+  padding: 0.7rem 1rem;
   border-radius: 9999px;
-  font-size: 0.75rem;
+  font-size: 1rem;
   font-weight: 500;
   background-color: ${({ $type }) => {
     switch ($type) {
@@ -113,8 +113,8 @@ const MetaItem = styled.div`
 `;
 
 const Icon = styled.div`
-  width: 1rem;
-  height: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
   color: var(--gray-500);
 
   @media (prefers-color-scheme: dark) {
@@ -126,10 +126,15 @@ const Icon = styled.div`
   }
 `;
 
+const MetaItemText = styled.span`
+  height: 24px;
+`;
+
 const Title = styled.h3`
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--foreground);
+  margin-top: 1rem;
 `;
 
 const Company = styled.p`
@@ -324,13 +329,13 @@ export function Timeline({ items }: TimelineProps) {
                     <Icon>
                       <Calendar />
                     </Icon>
-                    <span>{item.period}</span>
+                    <MetaItemText>{item.period}</MetaItemText>
                   </MetaItem>
                   <MetaItem>
                     <Icon>
                       <MapPin />
                     </Icon>
-                    <span>{item.location}</span>
+                    <MetaItemText>{item.location}</MetaItemText>
                   </MetaItem>
                 </MetaInfo>
 

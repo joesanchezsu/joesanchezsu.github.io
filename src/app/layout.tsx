@@ -8,9 +8,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Joe Sanchez Su - Portfolio",
-  description:
-    "Personal portfolio showcasing my career journey, projects, and experience",
+  title: "John Eric Sanchez Suarez",
+  description: "Personal website showcasing my career journey, projects, and experience",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

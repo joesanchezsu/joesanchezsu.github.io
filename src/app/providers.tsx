@@ -11,7 +11,7 @@ interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <StyledComponentsRegistry>
-      <NextThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <NextThemeProvider attribute="class" defaultTheme="dark">
         {children}
       </NextThemeProvider>
     </StyledComponentsRegistry>

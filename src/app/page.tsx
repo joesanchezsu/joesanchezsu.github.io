@@ -1,6 +1,5 @@
 "use client";
 
-import { ThemeToggle } from "./components/ThemeToggle";
 import { SocialLinks } from "./components/SocialLinks";
 import { Timeline } from "./components/Timeline";
 import styled from "styled-components";
@@ -234,55 +233,103 @@ const timelineData = [
   {
     id: "1",
     title: "Software Engineer",
-    company: "Tech Company",
-    location: "San Francisco, CA",
-    period: "2023 - Present",
+    company: "Betomorrow",
+    location: "Bordeaux, France",
+    period: "February 2019 to January 2025",
     type: "work" as const,
-    description:
-      "Full-stack development with focus on React, Node.js, and cloud technologies.",
+    description: "Cross-platform developer on web & mobiles applications.",
     projects: [
       {
-        title: "E-commerce Platform",
+        title: "Sport Inflows by SUEZ",
         description:
-          "Built a scalable e-commerce platform serving 100k+ users with real-time inventory management.",
-        tech: ["React", "Node.js", "PostgreSQL", "Redis", "AWS"],
-        link: "https://github.com/joesanchezsu/ecommerce-platform",
+          "Research project in the form of a web application using interactive maps (Mapbox, GIS) to identify sections of pipeline networks needing inspection or repair and facilitating statistical analysis, assembling and processing existing data from multiple sources and regions of France.",
+        tech: ["Angular", "Mapbox", "GIS", "Kotlin"],
+        link: "",
       },
       {
-        title: "Mobile App",
+        title: "SkillAgora",
+        description: "Internal corporate training management platform.",
+        tech: ["React.js", "React Native", "TypeScript", "Firebase"],
+        link: "https://www.skillagora.com/",
+      },
+      {
+        title: "TooShare",
         description:
-          "Developed a cross-platform mobile app for task management with offline capabilities.",
-        tech: ["React Native", "TypeScript", "Firebase", "Redux"],
-        link: "https://github.com/joesanchezsu/task-app",
+          "African social network dedicated to online education and knowledge sharing.",
+        tech: ["React.js", "GraphQL", "TypeScript"],
+        link: "https://www.tooshare.com/",
+      },
+      {
+        title: "Manuel Numérique Max",
+        description:
+          "Web & Mobile app for an enriched (interactive, multimedia) visualization of Belin Education's digital manual.",
+        tech: ["React.js", "React Native", "TypeScript", "Firebase"],
+        link: "https://manuelnumeriquemax.belin.education/",
       },
     ],
   },
   {
     id: "2",
-    title: "Software Engineering Intern",
-    company: "Startup Inc.",
-    location: "New York, NY",
-    period: "Summer 2022",
+    title: "Creative Technologist Intern",
+    company: "17K GmbH",
+    location: "Stuttgart, Germany",
+    period: "May to August 2018",
     type: "internship" as const,
-    description: "Worked on frontend development and user experience improvements.",
+    description:
+      "Conceived, designed, and developed two interactive touchscreen applications for the KTM Motohall museum using Processing (Java). Focused on building engaging experiences for children through creative UI/UX and custom computer vision algorithms.",
     projects: [
       {
-        title: "Dashboard Redesign",
-        description: "Redesigned the main dashboard to improve user engagement by 40%.",
-        tech: ["Vue.js", "D3.js", "SCSS", "Jest"],
-        link: "https://github.com/joesanchezsu/dashboard-redesign",
+        title: "Crazy Ideas",
+        description:
+          "Interactive app for children to design their dream motorcycle and receive a personalized photo montage. Emphasized modular design, child-friendly UX, and creative simplicity in a constrained museum environment.",
+        tech: ["Processing", "Java", "UI/UX Design"],
+        link: "https://www.17k.de/en/projects/ktm-motohall-mattighofen",
+      },
+      {
+        title: "Become a Hero",
+        description:
+          "A webcam-based interactive experience that integrated a child's face into a superhero character. Built a custom background subtraction and face detection algorithm using Processing and OpenCV to handle uncontrolled lighting and posture variations.",
+        tech: ["Processing", "OpenCV", "Computer Vision", "UX"],
+        link: "https://www.17k.de/en/projects/ktm-motohall-mattighofen",
       },
     ],
   },
   {
     id: "3",
-    title: "Computer Science",
-    company: "University of Technology",
-    location: "Boston, MA",
-    period: "2019 - 2023",
+    title: "Research & Development Intern",
+    company: "Inria / Ullo",
+    location: "Bordeaux, France",
+    period: "June to August 2017",
+    type: "internship" as const,
+    description:
+      "Co-developed Inner Flower, a tangible biofeedback device that visualizes physiological signals through a responsive, flower-shaped object. Focused on ambient interaction design, physiological computing, and therapeutic applications for well-being.",
+    projects: [
+      {
+        title: "Inner Flower",
+        description:
+          "A calming biofeedback object designed to support breathing-based relaxation. Translates physiological data (breath, heart rate, HRV) into visual and kinetic feedback using LED light and petal motion. Developed for therapeutic use in elderly care environments (EHPAD).",
+        tech: [
+          "Python",
+          "Arduino",
+          "Bluetooth",
+          "Sensor Design",
+          "Human-Centered Design",
+          "Physiological Computing",
+        ],
+        link: "https://labs.ullo.fr/projects/flower/", // replace with a direct project link if available
+      },
+    ],
+  },
+  {
+    id: "3",
+    title:
+      "Master's-level Engineering Degree in Cognitive Science and Technology (Diplôme d'Ingénieur)",
+    company: "École Nationale Supérieure de Cognitique, Bordeaux INP",
+    location: "Bordeaux, France",
+    period: "2016 - 2019",
     type: "study" as const,
     description:
-      "Bachelor's degree in Computer Science with focus on software engineering and algorithms.",
+      "A multidisciplinary program focused on human-system interaction, cognitive technologies, and the human factor.",
     projects: [
       {
         title: "Machine Learning Library",
@@ -299,28 +346,43 @@ const timelineData = [
       },
     ],
   },
+  {
+    id: "4",
+    title: "Mechatronics Engineering",
+    company: "Universidad Nacional de Colombia",
+    location: "Bogotá, Colombia",
+    period: "2009 - 2016",
+    type: "study" as const,
+    description:
+      "Bachelor's degree in Mechatronics Engineering with a focus on robotics, automation, and control systems.",
+    projects: [],
+  },
+  {
+    id: "5",
+    title:
+      "Exchange Year in TUM Munich as part of the program “Mejores Promedios” (Best Grades)",
+    company: "Technical University of Munich",
+    location: "Munich, Germany",
+    period: "2014 - 2015",
+    type: "study" as const,
+    description:
+      "Exchange year in TUM Munich as part of the program “Mejores Promedios” (Best Grades)",
+    projects: [],
+  },
 ];
 
 export default function Home() {
   return (
     <PageContainer>
-      {/* Header */}
-      <Header>
-        <HeaderContent>
-          <HeaderTitle>Joe Sanchez Su</HeaderTitle>
-          <ThemeToggle />
-        </HeaderContent>
-      </Header>
-
       <Main>
         {/* Hero Section */}
         <HeroSection>
           <HeroContent>
-            {/* Replace with your actual photo */}
             <Avatar>
+              <AvatarImage src="/images/avatar.png" alt="John Eric Sánchez Suárez" />
               <AvatarText>JS</AvatarText>
             </Avatar>
-            <HeroTitle>Joe Sanchez Su</HeroTitle>
+            <HeroTitle>John Eric Sánchez Suárez</HeroTitle>
             <HeroSubtitle>
               Software Engineer passionate about building impactful applications
             </HeroSubtitle>

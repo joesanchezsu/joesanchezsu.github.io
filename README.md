@@ -1,4 +1,4 @@
-# Joe Sanchez Su - Portfolio
+# John Eric Sanchez Suarez - Portfolio
 
 A modern, responsive portfolio website built with Next.js, TypeScript, and Tailwind CSS. Features a clean design with dark/light mode support and a timeline showcasing career journey and projects.
 
