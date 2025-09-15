@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { SocialLinks } from "./components/SocialLinks";
 import { Timeline } from "./components/Timeline";
 import styled from "styled-components";
@@ -66,6 +67,7 @@ const Avatar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 
   @media (prefers-color-scheme: dark) {
     background-color: var(--gray-700);
@@ -302,7 +304,7 @@ const timelineData = [
     period: "June to August 2017",
     type: "internship" as const,
     description:
-      "Co-developed Inner Flower, a tangible biofeedback device that visualizes physiological signals through a responsive, flower-shaped object. Focused on ambient interaction design, physiological computing, and therapeutic applications for well-being.",
+      "Co-developed the first prototype of Inner Flower, a tangible biofeedback device that visualizes physiological signals through a responsive, flower-shaped object. Focused on ambient interaction design, physiological computing, and therapeutic applications for well-being.",
     projects: [
       {
         title: "Inner Flower",
@@ -379,8 +381,12 @@ export default function Home() {
         <HeroSection>
           <HeroContent>
             <Avatar>
-              <AvatarImage src="/images/avatar.png" alt="John Eric Sánchez Suárez" />
-              <AvatarText>JS</AvatarText>
+              <Image
+                src="/images/avatar.jpg"
+                alt="John Eric Sánchez Suárez"
+                width={220}
+                height={220}
+              />
             </Avatar>
             <HeroTitle>John Eric Sánchez Suárez</HeroTitle>
             <HeroSubtitle>
@@ -418,7 +424,7 @@ export default function Home() {
       {/* Footer */}
       <Footer>
         <FooterContent>
-          <p>&copy; 2024 Joe Sanchez Su. Built with Next.js and Styled Components.</p>
+          <p>&copy; 2025 Made with ❤️ by John Eric Sánchez Suárez</p>
         </FooterContent>
       </Footer>
     </PageContainer>

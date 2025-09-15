@@ -79,7 +79,7 @@ export function SocialLinks({ className, justifyCenter }: SocialLinksProps) {
         </Icon>
       </SocialLink>
       <SocialLink
-        href="https://linkedin.com/in/joesanchezsu"
+        href="www.linkedin.com/in/john-eric-sánchez-suárez-b9b743158"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="LinkedIn"
@@ -104,7 +104,7 @@ export function SocialLinks({ className, justifyCenter }: SocialLinksProps) {
         </Icon>
       </SocialLink>
       <SocialLink
-        href="https://twitter.com/joesanchezsu"
+        href="https://x.com/jesanchezsua"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Twitter"
