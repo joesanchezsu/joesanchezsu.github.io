@@ -9,40 +9,6 @@ const PageContainer = styled.div`
   min-height: 100vh;
 `;
 
-const Header = styled.header`
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--gray-200);
-
-  @media (prefers-color-scheme: dark) {
-    background-color: rgba(0, 0, 0, 0.8);
-    border-bottom-color: var(--gray-800);
-  }
-
-  .dark & {
-    background-color: rgba(0, 0, 0, 0.8);
-    border-bottom-color: var(--gray-800);
-  }
-`;
-
-const HeaderContent = styled.div`
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const HeaderTitle = styled.h1`
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--foreground);
-`;
-
 const Main = styled.main`
   max-width: 1280px;
   margin: 0 auto;
@@ -75,20 +41,6 @@ const Avatar = styled.div`
 
   .dark & {
     background-color: var(--gray-700);
-  }
-`;
-
-const AvatarText = styled.span`
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: var(--gray-600);
-
-  @media (prefers-color-scheme: dark) {
-    color: var(--gray-400);
-  }
-
-  .dark & {
-    color: var(--gray-400);
   }
 `;
 
@@ -253,6 +205,7 @@ const timelineData = [
         description: "Internal corporate training management platform.",
         tech: ["React.js", "React Native", "TypeScript", "Firebase"],
         link: "https://www.skillagora.com/",
+        slug: "skillagora",
       },
       {
         title: "TooShare",
@@ -260,6 +213,7 @@ const timelineData = [
           "African social network dedicated to online education and knowledge sharing.",
         tech: ["React.js", "GraphQL", "TypeScript"],
         link: "https://www.tooshare.com/",
+        slug: "tooshare",
       },
       {
         title: "Manuel Numérique Max",
@@ -267,6 +221,7 @@ const timelineData = [
           "Web & Mobile app for an enriched (interactive, multimedia) visualization of Belin Education's digital manual.",
         tech: ["React.js", "React Native", "TypeScript", "Firebase"],
         link: "https://manuelnumeriquemax.belin.education/",
+        slug: "manuel-numerique-max",
       },
     ],
   },
@@ -285,45 +240,50 @@ const timelineData = [
         description:
           "Interactive app for children to design their dream motorcycle and receive a personalized photo montage. Emphasized modular design, child-friendly UX, and creative simplicity in a constrained museum environment.",
         tech: ["Processing", "Java", "UI/UX Design"],
-        link: "https://www.17k.de/en/projects/ktm-motohall-mattighofen",
+        link: undefined,
+        slug: "crazy-ideas",
       },
       {
         title: "Become a Hero",
         description:
           "A webcam-based interactive experience that integrated a child's face into a superhero character. Built a custom background subtraction and face detection algorithm using Processing and OpenCV to handle uncontrolled lighting and posture variations.",
         tech: ["Processing", "OpenCV", "Computer Vision", "UX"],
-        link: "https://www.17k.de/en/projects/ktm-motohall-mattighofen",
+        link: undefined,
+        slug: "become-a-hero",
       },
     ],
   },
   {
     id: "3",
     title: "Research & Development Intern",
-    company: "Inria / Ullo",
+    company: "Inria / Ullo Labs",
     location: "Bordeaux, France",
     period: "June to August 2017",
     type: "internship" as const,
     description:
-      "Co-developed the first prototype of Inner Flower, a tangible biofeedback device that visualizes physiological signals through a responsive, flower-shaped object. Focused on ambient interaction design, physiological computing, and therapeutic applications for well-being.",
+      "Co-developed the first prototype of Inner Flower. Focused on hardware and software development, ambient interaction, physiological computing, and the creation of a responsive object that supports breathing-based relaxation and well-being.",
     projects: [
       {
         title: "Inner Flower",
         description:
-          "A calming biofeedback object designed to support breathing-based relaxation. Translates physiological data (breath, heart rate, HRV) into visual and kinetic feedback using LED light and petal motion. Developed for therapeutic use in elderly care environments (EHPAD).",
+          "A tangible biofeedback device that visualizes physiological signals through a responsive, flower-shaped object. Focused on ambient interaction design, physiological computing, and therapeutic applications for well-being. Translates physiological data (breath, heart rate, HRV) into visual and kinetic feedback using LED light and petal motion.",
         tech: [
           "Python",
           "Arduino",
           "Bluetooth",
-          "Sensor Design",
-          "Human-Centered Design",
-          "Physiological Computing",
+          "Raspberry Pi",
+          "Bluetooth Low Energie",
+          "Biofeedback",
+          "Tangible interactions",
+          "Physiological Sensors",
         ],
-        link: "https://labs.ullo.fr/projects/flower/", // replace with a direct project link if available
+        link: undefined,
+        slug: "inner-flower",
       },
     ],
   },
   {
-    id: "3",
+    id: "4",
     title:
       "Master's-level Engineering Degree in Cognitive Science and Technology (Diplôme d'Ingénieur)",
     company: "École Nationale Supérieure de Cognitique, Bordeaux INP",
@@ -334,22 +294,39 @@ const timelineData = [
       "A multidisciplinary program focused on human-system interaction, cognitive technologies, and the human factor.",
     projects: [
       {
-        title: "Machine Learning Library",
+        title: "Carnaval Augmenté - The Game",
         description:
-          "Implemented a lightweight machine learning library for educational purposes.",
-        tech: ["Python", "NumPy", "Matplotlib", "Jupyter"],
-        link: "https://github.com/joesanchezsu/ml-library",
+          "A 2D platformer built in Unity to immerse players in the world of Bordeaux’s Augmented Carnival, with evolving environments across three levels and playful arcade-style gameplay.",
+        tech: ["Unity", "C#", "2D Platformer", "Game Design"],
+        link: undefined,
+        slug: "carnaval-game",
       },
       {
-        title: "Database Management System",
-        description: "Built a simple relational database management system from scratch.",
-        tech: ["C++", "SQL", "File I/O", "Memory Management"],
-        link: "https://github.com/joesanchezsu/dbms",
+        title: "CreHappy",
+        description:
+          "Interactive Digital Painting Tool for Art Therapy — A gesture-based painting app built with Leap Motion and Arduino that transforms physical movements into expressive digital brushstrokes, focusing on creativity and well-being.",
+        tech: [
+          "Arduino",
+          "Leap Motion",
+          "Processing",
+          "Motion Detection",
+          "AP-SYNC library",
+        ],
+        link: undefined,
+        slug: "crehappy",
+      },
+      {
+        title: "Intui'Son",
+        description:
+          "Intui’Son is a digital musical instrument powered by Kinect, transforming body movements into sound through real-time motion detection and an interactive interface.",
+        tech: ["Processing", "Kinect", "MIDI"],
+        link: undefined,
+        slug: "intui-son",
       },
     ],
   },
   {
-    id: "4",
+    id: "5",
     title: "Mechatronics Engineering",
     company: "Universidad Nacional de Colombia",
     location: "Bogotá, Colombia",
@@ -360,7 +337,7 @@ const timelineData = [
     projects: [],
   },
   {
-    id: "5",
+    id: "6",
     title:
       "Exchange Year in TUM Munich as part of the program “Mejores Promedios” (Best Grades)",
     company: "Technical University of Munich",
@@ -390,12 +367,14 @@ export default function Home() {
             </Avatar>
             <HeroTitle>John Eric Sánchez Suárez</HeroTitle>
             <HeroSubtitle>
-              Software Engineer passionate about building impactful applications
+              Software Engineer passionate about web technologies and human-systems
+              interaction
             </HeroSubtitle>
             <HeroDescription>
-              I&apos;m a full-stack developer with experience in modern web technologies,
-              mobile development, and cloud platforms. I love creating user-centered
-              solutions that solve real-world problems.
+              Along my career, I have had the experience of working in modern web
+              technologies, mobile development, and cloud platforms. I combine technical
+              expertise with creative problem-solving to deliver meaningful, innovative
+              solutions.
             </HeroDescription>
           </HeroContent>
 
@@ -415,7 +394,7 @@ export default function Home() {
             I&apos;m always interested in new opportunities and collaborations.
           </ContactDescription>
           <ContactActions>
-            <EmailButton href="mailto:joe@example.com">Email Me</EmailButton>
+            <EmailButton href="mailto:jsanchezsua@ensc.fr">Email Me</EmailButton>
             <SocialLinks />
           </ContactActions>
         </ContactSection>

@@ -1,0 +1,5 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#3B82F6"/>
+  <text x="400" y="300" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="24" font-weight="bold">Machine Learning Library</text>
+  <text x="400" y="340" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16">Main Dashboard</text>
+</svg>

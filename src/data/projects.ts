@@ -1,0 +1,199 @@
+export interface Project {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  period?: string;
+  location?: string;
+  tech: string[];
+  link?: string;
+  github?: string;
+  images?: string[];
+  imageLayout?: "big-left" | "big-right";
+}
+
+export const projects: Project[] = [
+  {
+    id: "skillagora",
+    slug: "skillagora",
+    title: "SkillAgora",
+    description:
+      "Internal corporate training management platform that enables organizations to create, manage, and track employee training programs. The platform features course creation tools, progress tracking, certification management, and comprehensive analytics to help companies optimize their learning and development initiatives.",
+    period: "2022 - 2024",
+    location: "Bordeaux, France",
+    tech: ["React.js", "React Native", "TypeScript", "Firebase", "Node.js", "Express"],
+    link: "https://www.skillagora.com/",
+    images: [
+      "/images/projects/skillagora/main.jpg",
+      "/images/projects/skillagora/dashboard.jpg",
+      "/images/projects/skillagora/mobile.jpg",
+    ],
+    imageLayout: "big-left",
+  },
+  {
+    id: "tooshare",
+    slug: "tooshare",
+    title: "TooShare",
+    description:
+      "African social network dedicated to online education and knowledge sharing. The platform connects learners across Africa, providing access to educational content, peer-to-peer learning opportunities, and community-driven knowledge exchange. Features include content creation tools, discussion forums, and progress tracking.",
+    period: "2021 - 2023",
+    location: "Remote",
+    tech: ["React.js", "GraphQL", "TypeScript", "Apollo Client", "Node.js", "MongoDB"],
+    link: "https://www.tooshare.com/",
+    images: [
+      "/images/projects/tooshare/main.jpg",
+      "/images/projects/tooshare/community.jpg",
+      "/images/projects/tooshare/learning.jpg",
+    ],
+    imageLayout: "big-right",
+  },
+  {
+    id: "manuel-numerique-max",
+    slug: "manuel-numerique-max",
+    title: "Manuel Numérique Max",
+    description:
+      "Web & Mobile application for enriched visualization of Belin Education's digital manual. The app provides interactive, multimedia content that enhances the traditional textbook experience with videos, animations, interactive exercises, and personalized learning paths for students.",
+    period: "2020 - 2022",
+    location: "Bordeaux, France",
+    tech: ["React.js", "React Native", "TypeScript", "Firebase", "Redux", "Expo"],
+    link: "https://manuelnumeriquemax.belin.education/",
+    images: [
+      "/images/projects/manuel-max/main.jpg",
+      "/images/projects/manuel-max/interactive.jpg",
+      "/images/projects/manuel-max/mobile.jpg",
+    ],
+    imageLayout: "big-left",
+  },
+  {
+    id: "sport-inflows",
+    slug: "sport-inflows",
+    title: "Sport Inflows by SUEZ",
+    description:
+      "Research project in the form of a web application using interactive maps (Mapbox, GIS) to identify sections of pipeline networks needing inspection or repair. The application facilitates statistical analysis by assembling and processing existing data from multiple sources and regions of France, helping optimize maintenance operations.",
+    period: "2019 - 2021",
+    location: "Bordeaux, France",
+    tech: ["Angular", "Mapbox", "GIS", "Kotlin", "Spring Boot", "PostgreSQL"],
+    images: [
+      "/images/projects/sport-inflows/main.jpg",
+      "/images/projects/sport-inflows/map.jpg",
+      "/images/projects/sport-inflows/analytics.jpg",
+    ],
+    imageLayout: "big-right",
+  },
+  {
+    id: "crazy-ideas",
+    slug: "crazy-ideas",
+    title: "Crazy Ideas - KTM Motohall",
+    description:
+      "Interactive touchscreen application for children to design their dream motorcycle and receive a personalized photo montage. Built for the KTM Motohall museum, this app emphasizes modular design, child-friendly UX, and creative simplicity in a constrained museum environment. Features intuitive drag-and-drop interface and real-time 3D preview.",
+    period: "May - August 2018",
+    location: "Stuttgart, Germany",
+    tech: ["Processing", "Java", "UI/UX Design", "Computer Vision", "Touch Interface"],
+    link: "https://www.17k.de/en/projects/ktm-motohall-mattighofen",
+    images: [
+      "/images/projects/crazy-ideas/main.jpg",
+      "/images/projects/crazy-ideas/design.jpg",
+      "/images/projects/crazy-ideas/result.jpg",
+    ],
+    imageLayout: "big-left",
+  },
+  {
+    id: "become-a-hero",
+    slug: "become-a-hero",
+    title: "Become a Hero - KTM Motohall",
+    description:
+      "Webcam-based interactive experience that integrates a child's face into a superhero character. Built a custom background subtraction and face detection algorithm using Processing and OpenCV to handle uncontrolled lighting and posture variations. The app creates engaging, personalized experiences for museum visitors.",
+    period: "May - August 2018",
+    location: "Stuttgart, Germany",
+    tech: [
+      "Processing",
+      "OpenCV",
+      "Computer Vision",
+      "UX Design",
+      "Real-time Processing",
+    ],
+    link: "https://www.17k.de/en/projects/ktm-motohall-mattighofen",
+    images: [
+      "/images/projects/become-hero/main.jpg",
+      "/images/projects/become-hero/face-detection.jpg",
+      "/images/projects/become-hero/result.jpg",
+    ],
+    imageLayout: "big-right",
+  },
+  {
+    id: "inner-flower",
+    slug: "inner-flower",
+    title: "Inner Flower",
+    description:
+      "Inner Flower is a tangible biofeedback device designed to support breathing-based relaxation and well-being. The device uses LED lights and moving petals to provide real-time visual and kinetic feedback, guiding users through breathing exercises in a gentle, ambient manner. Patterns of light and motion sync with the user’s breathing, creating a calm and immersive experience that can be used for short breaks, stress reduction, or mindful interaction.\n When connected to a smartwatch, Inner Flower adapts dynamically to the user’s physiology, slightly adjusting the pace of the breathing guide based on heart rate, following principles of cardiac coherence. The flower form factor was chosen to evoke a natural, calming presence, reminiscent of taking a moment to breathe next to a plant. During my internship at Inria Bordeaux for the start-up Ullo, I developed the first prototype of Inner Flower, focusing on hardware and software development. I designed a respiration sensor using an Adafruit Feather 32u4 with Bluetooth, integrated Neopixel LEDs and a servo-driven petal mechanism, and programmed Arduino and Python scripts to capture, synchronize, and visualize physiological data from both the respiration sensor and a smartwatch. User testing protocols were created to refine interaction and ensure the device was intuitive, compact, and comfortable. The project combined mechatronics, physiological computing, and ambient interaction design, resulting in a responsive, calming object that bridges technology and well-being.",
+    period: "June - August 2017",
+    location: "Bordeaux, France",
+    tech: [
+      "Python",
+      "Arduino",
+      "Raspberry Pi",
+      "Bluetooth Low Energie",
+      "Biofeedback",
+      "Tangible interactions",
+      "Physiological Sensors",
+    ],
+    link: "https://labs.ullo.fr/projects/flower/",
+    images: [
+      "/images/projects/inner-flower/main.jpg",
+      "/images/projects/inner-flower/device.jpg",
+      "/images/projects/inner-flower/usage.jpg",
+    ],
+    imageLayout: "big-left",
+  },
+  {
+    id: "carnaval-game",
+    slug: "carnaval-game",
+    title: "Carnaval Augmenté - The Game",
+    description:
+      "This project is a 3-level 2D platformer developed for the Carnaval Augmenté de Bordeaux, designed to introduce players to the carnival’s augmented reality experience and immerse them in its story. The game progresses through **seasonal environments—from winter to summer—**creating a dynamic visual journey for the player. Its arcade-style gameplay draws inspiration from classic platformers, providing an engaging and playful experience for a wide audience. I worked on the entire game development, from conceptualizing the gameplay and level design to implementing mechanics and graphics in Unity 2D. Iterative testing with focus groups and real users helped refine the experience and ensure smooth gameplay, while integrating the game’s narrative and visual style to complement the broader carnival exhibition.",
+    period: "2019",
+    location: "Bordeaux, France",
+    tech: ["Unity", "C#", "2D Platformer", "Game Design"],
+    github: "https://github.com/joesanchezsu/Monsieur-Carnaval-Game",
+    images: [
+      "/images/projects/crehappy/main.jpg",
+      "/images/projects/crehappy/architecture.jpg",
+      "/images/projects/crehappy/query.jpg",
+    ],
+    imageLayout: "big-left",
+  },
+  {
+    id: "crehappy",
+    slug: "crehappy",
+    title: "CreHappy",
+    description:
+      "This project is an interactive digital painting application designed for art therapy and creative exploration. It transforms hand gestures into expressive digital brushstrokes, simulating action painting where spontaneous movement becomes the core of expression. The application encourages users to focus on the act of creation itself, fostering creativity, relaxation, and well-being. The system uses a Leap Motion sensor to track hand movements, translating gestures into fluid brushstrokes with textures resembling real paint. To enhance interactivity, an ultrasonic sensor (HC-SR04) with Arduino MEGA 2560 measures motion distance, dynamically influencing brush color. Data flows between the hardware and the Processing 3 application using the AP-SYNC library, while the Leap Motion Processing library allows precise capture of hands and fingers gestures for artistic control. \nThe project aimed to create a first version of a tool that can be scaled for art therapy, public exhibitions, or personal creative exploration, providing an immersive and expressive digital painting experience.",
+    period: "2018",
+    location: "Bordeaux, France",
+    tech: ["Arduino", "Leap Motion", "Processing", "Motion Detection", "AP-SYNC library"],
+    github: "https://github.com/joesanchezsu/crehappy",
+    images: [
+      "/images/projects/crehappy/main.jpg",
+      "/images/projects/crehappy/architecture.jpg",
+      "/images/projects/crehappy/query.jpg",
+    ],
+    imageLayout: "big-left",
+  },
+  {
+    id: "intui-son",
+    slug: "intui-son",
+    title: "Intuit'Son",
+    description:
+      "Intui’Son is an experimental musical instrument that transforms gesture into sound using Kinect motion tracking. I contributed both to the development and to the design of the interactive interface, which provides users with real-time visual feedback to adjust their movements and create a fluid musical experience. The project included building the motion detection system, designing intuitive interaction flows, and testing usability to make the instrument accessible and playful.",
+    period: "2017",
+    location: "Bordeaux, France",
+    tech: ["Processing", "Kinect", "MIDI"],
+    github: "",
+    images: [
+      "/images/projects/intui-son/main.jpg",
+      "/images/projects/intui-son/algorithms.jpg",
+      "/images/projects/intui-son/examples.jpg",
+    ],
+    imageLayout: "big-right",
+  },
+];

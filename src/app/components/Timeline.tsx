@@ -1,12 +1,15 @@
 "use client";
 
-import { Calendar, MapPin, ExternalLink } from "lucide-react";
+import { Calendar, MapPin } from "lucide-react";
 import styled from "styled-components";
+import { ProjectCard as ProjectCardComponent } from "./ProjectCard";
 
 const TimelineContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
 `;
 
 const TimelineItemContainer = styled.div`
@@ -33,7 +36,7 @@ const TimelineLine = styled.div`
 const TimelineContent = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: 1.5rem;
+  gap: 2rem;
 `;
 
 const TimelineDot = styled.div<{ $type: "work" | "internship" | "study" }>`
@@ -167,7 +170,7 @@ const Description = styled.p`
 const ProjectsSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
 `;
 
 const ProjectsTitle = styled.h4`
@@ -178,98 +181,7 @@ const ProjectsTitle = styled.h4`
 
 const ProjectsGrid = styled.div`
   display: grid;
-  gap: 1rem;
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-`;
-
-const ProjectCard = styled.div`
-  padding: 1rem;
-  border: 1px solid var(--gray-200);
-  border-radius: 0.5rem;
-
-  @media (prefers-color-scheme: dark) {
-    border-color: var(--gray-700);
-  }
-
-  .dark & {
-    border-color: var(--gray-700);
-  }
-`;
-
-const ProjectHeader = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-`;
-
-const ProjectTitle = styled.h5`
-  font-weight: 500;
-  color: var(--foreground);
-`;
-
-const ProjectLink = styled.a`
-  color: var(--blue-500);
-  text-decoration: none;
-  transition: color 0.2s ease;
-
-  &:hover {
-    color: var(--blue-600);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    color: var(--blue-400);
-
-    &:hover {
-      color: var(--blue-300);
-    }
-  }
-
-  .dark & {
-    color: var(--blue-400);
-
-    &:hover {
-      color: var(--blue-300);
-    }
-  }
-`;
-
-const ProjectDescription = styled.p`
-  font-size: 0.875rem;
-  color: var(--gray-600);
-  margin-bottom: 0.75rem;
-
-  @media (prefers-color-scheme: dark) {
-    color: var(--gray-400);
-  }
-
-  .dark & {
-    color: var(--gray-400);
-  }
-`;
-
-const TechStack = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-`;
-
-const TechTag = styled.span`
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  background-color: var(--gray-100);
-  border-radius: 0.25rem;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: var(--gray-800);
-  }
-
-  .dark & {
-    background-color: var(--gray-800);
-  }
+  gap: 2rem;
 `;
 
 interface Project {
@@ -278,6 +190,7 @@ interface Project {
   tech: string[];
   link?: string;
   images?: string[];
+  slug?: string;
 }
 
 interface TimelineItem {
@@ -350,28 +263,15 @@ export function Timeline({ items }: TimelineProps) {
                   <ProjectsTitle>Key Projects</ProjectsTitle>
                   <ProjectsGrid>
                     {item.projects.map((project, projectIndex) => (
-                      <ProjectCard key={projectIndex}>
-                        <ProjectHeader>
-                          <ProjectTitle>{project.title}</ProjectTitle>
-                          {project.link && (
-                            <ProjectLink
-                              href={project.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <Icon>
-                                <ExternalLink />
-                              </Icon>
-                            </ProjectLink>
-                          )}
-                        </ProjectHeader>
-                        <ProjectDescription>{project.description}</ProjectDescription>
-                        <TechStack>
-                          {project.tech.map((tech, techIndex) => (
-                            <TechTag key={techIndex}>{tech}</TechTag>
-                          ))}
-                        </TechStack>
-                      </ProjectCard>
+                      <ProjectCardComponent
+                        key={projectIndex}
+                        title={project.title}
+                        description={project.description}
+                        tech={project.tech}
+                        link={project.link}
+                        slug={project.slug}
+                        type={item.type}
+                      />
                     ))}
                   </ProjectsGrid>
                 </ProjectsSection>
