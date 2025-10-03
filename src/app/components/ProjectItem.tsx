@@ -11,8 +11,8 @@ const Card = styled.button`
   width: 350px;
   height: 250px;
   border-radius: 0px;
-  border-top-right-radius: 40px;
-  border-bottom-right-radius: 40px;
+  border-top-right-radius: 60px;
+  border-bottom-right-radius: 60px;
   border: 1px solid var(--yellow-photo);
   background: var(--background);
   color: var(--foreground);
@@ -30,6 +30,9 @@ const Card = styled.button`
 const Media = styled.div<{ $image?: string }>`
   position: absolute;
   inset: 0;
+  overflow: hidden;
+  border-top-right-radius: 60px;
+  border-bottom-right-radius: 60px;
   background: ${({ $image }) =>
     $image ? `center/cover no-repeat url('${$image}')` : "var(--gray-100)"};
 
@@ -67,9 +70,12 @@ const Overlay = styled.div`
   text-align: center;
   color: var(--white);
   background: rgba(0, 0, 0, 0);
+  border-top-right-radius: 60px;
+  border-bottom-right-radius: 60px;
   opacity: 0;
   transition: opacity 220ms ease, background 220ms ease;
   backdrop-filter: blur(0px);
+  overflow: hidden;
 
   ${Card}:hover & {
     opacity: 1;
