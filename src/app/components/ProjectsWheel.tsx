@@ -1,8 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { projects } from "../../data/projects";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CSSPlugin } from "gsap/CSSPlugin";
+import { ProjectItem } from "./ProjectItem";
+import { ProjectModal, ProjectModalData } from "./ProjectModal";
+import { useState } from "react";
 
 const WheelContainer = styled.section`
   position: relative;
@@ -16,65 +22,124 @@ const WheelContainer = styled.section`
 
 const WheelInner = styled.div`
   position: relative;
-  width: 520px;
-  height: 520px;
-`;
-
-const Item = styled.button`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  border: 1px solid var(--gray-200);
-  background: transparent;
-  color: var(--foreground);
-  border-radius: 0.75rem;
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-  outline: none;
-
-  @media (prefers-color-scheme: dark) {
-    border-color: var(--gray-700);
-  }
+  width: 1000px;
+  height: 1000px;
 `;
 
 export function ProjectsWheel() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const itemsRef = useRef<HTMLButtonElement[]>([]);
-  const data = useMemo(() => projects.slice(0, Math.min(projects.length, 10)), []);
+  const data = useMemo(() => projects.slice(0, Math.min(projects.length, 12)), []);
+  const [open, setOpen] = useState(false);
+  const [modalData, setModalData] = useState<ProjectModalData | undefined>();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger, CSSPlugin);
     if (!containerRef.current) return;
-    const total = data.length;
-    const angleStep = 360 / total;
-    const radius = 180;
 
-    itemsRef.current.forEach((el, i) => {
-      if (!el) return;
-      const a = (i * angleStep * Math.PI) / 180;
-      const x = radius * Math.cos(a);
-      const y = radius * Math.sin(a);
-      const scale = 0.9 + (0.25 * (y / radius + 1)) / 2;
-      const z = Math.round(scale * 100);
-      el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale})`;
-      (el.style as any).zIndex = String(z);
-    });
+    const ctx = gsap.context(() => {
+      const total = data.length || 1;
+      const angleStep = 360 / total;
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+      const radius = isMobile ? 300 : 600;
+
+      const state = { baseAngle: 0 } as { baseAngle: number };
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "+=4000",
+          scrub: true,
+          pin: !isMobile,
+        },
+        defaults: { ease: "none" },
+      });
+
+      // Rotate a full circle mapped to scroll; wrap to loop forever
+      tl.to(state, {
+        baseAngle: "+=360",
+        modifiers: {
+          baseAngle: (val) => `${gsap.utils.wrap(0, 360, parseFloat(val))}`,
+        },
+      });
+
+      const frontAngle = -180; // front at screen center (downwards visually if y grows positive)
+      const visibleWindow = 120; // degrees span for full opacity (shows ~3-5 items)
+      const initialPosition = { x: 370, y: -40 };
+
+      // Ensure each element starts centered via translate(-50%, -50%)
+      itemsRef.current.forEach((el) => {
+        if (!el) return;
+        el.style.transform = "translate(-50%, -50%)";
+      });
+
+      const update = () => {
+        for (let i = 0; i < itemsRef.current.length; i += 1) {
+          const el = itemsRef.current[i];
+          if (!el) continue;
+          const angleDeg = state.baseAngle + i * angleStep;
+          const rad = (angleDeg * Math.PI) / 180;
+          const x = radius * Math.cos(rad) + initialPosition.x;
+          const y = radius * Math.sin(rad) + initialPosition.y;
+
+          // scale by depth so front items are larger
+          // const depth = (y + radius) / (2 * radius); // 0..1
+          const scale = 1; // 0.85 + depth * 0.35; // 0.85..1.2
+          const z = Math.round(scale * 100);
+
+          // align tangentially to the circle (tangent angle is angleDeg + 90)
+          const rotation = angleDeg - 180;
+
+          // opacity window: show only those near front
+          const delta = Math.abs(gsap.utils.wrap(-180, 180, angleDeg - frontAngle));
+          const opacity = delta < visibleWindow ? 1 : 0;
+
+          el.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`;
+          el.style.opacity = String(opacity);
+          el.style.zIndex = String(z);
+        }
+      };
+
+      gsap.ticker.add(update);
+
+      // Initial position
+      update();
+
+      return () => {
+        gsap.ticker.remove(update);
+        ScrollTrigger.getAll().forEach((st) => st.kill());
+      };
+    }, containerRef);
+
+    return () => ctx.revert();
   }, [data]);
 
   return (
     <WheelContainer>
       <WheelInner ref={containerRef}>
         {data.map((p, i) => (
-          <Item
+          <ProjectItem
             key={p.slug}
             ref={(el) => {
               if (el) itemsRef.current[i] = el;
             }}
             aria-label={p.title}
-          >
-            {p.title}
-          </Item>
+            title={p.title}
+            description={p.description}
+            imageUrl={p.images?.[0]}
+            onClick={() => {
+              setModalData({
+                title: p.title,
+                description: p.description,
+                tech: p.tech,
+                images: p.images,
+              });
+              setOpen(true);
+            }}
+          />
         ))}
+        <ProjectModal open={open} data={modalData} onClose={() => setOpen(false)} />
       </WheelInner>
     </WheelContainer>
   );

@@ -1,0 +1,102 @@
+"use client";
+
+import React, { forwardRef } from "react";
+import styled from "styled-components";
+
+const Card = styled.button`
+  position: absolute; /* Positioned by parent (wheel) via transforms */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 250px;
+  border-radius: 12px;
+  border: 1px solid var(--gray-200);
+  background: var(--background);
+  color: var(--foreground);
+  overflow: hidden;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  will-change: transform, opacity;
+
+  @media (prefers-color-scheme: dark) {
+    border-color: var(--gray-700);
+  }
+`;
+
+const Media = styled.div<{ $image?: string }>`
+  position: absolute;
+  inset: 0;
+  background: ${({ $image }) =>
+    $image ? `center/cover no-repeat url('${$image}')` : "var(--gray-100)"};
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--gray-800);
+  }
+`;
+
+const Title = styled.div`
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 2;
+  padding: 6px 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+
+  @media (prefers-color-scheme: dark) {
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--white);
+  }
+`;
+
+const Overlay = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+  color: var(--white);
+  background: rgba(0, 0, 0, 0);
+  opacity: 0;
+  transition: opacity 220ms ease, background 220ms ease;
+  backdrop-filter: blur(0px);
+
+  ${Card}:hover & {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+  }
+`;
+
+const OverlayText = styled.p`
+  font-size: 0.95rem;
+  line-height: 1.35;
+`;
+
+export interface ProjectItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  title: string;
+  description?: string;
+  imageUrl?: string;
+}
+
+export const ProjectItem = forwardRef<HTMLButtonElement, ProjectItemProps>(
+  ({ title, description, imageUrl, ...buttonProps }, ref) => {
+    return (
+      <Card ref={ref} {...buttonProps} aria-label={title}>
+        <Media $image={imageUrl} />
+        <Overlay>{description ? <OverlayText>{description}</OverlayText> : null}</Overlay>
+        <Title>{title}</Title>
+      </Card>
+    );
+  }
+);
+
+ProjectItem.displayName = "ProjectItem";
