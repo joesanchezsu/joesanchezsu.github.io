@@ -10,18 +10,20 @@ const Card = styled.button`
   transform: translate(-50%, -50%);
   width: 350px;
   height: 250px;
-  border-radius: 12px;
-  border: 1px solid var(--gray-200);
+  border-radius: 0px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  border: 1px solid var(--yellow-photo);
   background: var(--background);
   color: var(--foreground);
-  overflow: hidden;
+  /* overflow: hidden; */
   cursor: pointer;
   outline: none;
   padding: 0;
   will-change: transform, opacity;
 
   @media (prefers-color-scheme: dark) {
-    border-color: var(--gray-700);
+    border-color: var(--yellow-photo);
   }
 `;
 
@@ -38,15 +40,15 @@ const Media = styled.div<{ $image?: string }>`
 
 const Title = styled.div`
   position: absolute;
-  left: 12px;
-  bottom: 12px;
+  left: 0px;
+  bottom: -34px;
   z-index: 2;
   padding: 6px 10px;
+  padding-left: 0;
+  margin-left: -2px;
   font-weight: 600;
   font-size: 0.95rem;
   color: var(--foreground);
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 8px;
 
   @media (prefers-color-scheme: dark) {
     background: rgba(0, 0, 0, 0.5);

@@ -26,7 +26,11 @@ const WheelInner = styled.div`
   height: 1000px;
 `;
 
-export function ProjectsWheel() {
+export function ProjectsWheel({
+  scrollerRef,
+}: {
+  scrollerRef?: React.RefObject<HTMLDivElement | null>;
+}) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const itemsRef = useRef<HTMLButtonElement[]>([]);
   const data = useMemo(() => projects.slice(0, Math.min(projects.length, 12)), []);
@@ -36,6 +40,8 @@ export function ProjectsWheel() {
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger, CSSPlugin);
     if (!containerRef.current) return;
+
+    // ensure internal scroller is used when available
 
     const ctx = gsap.context(() => {
       const total = data.length || 1;
@@ -49,20 +55,25 @@ export function ProjectsWheel() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=4000",
+          end: "+=3600",
           scrub: true,
-          pin: !isMobile,
+          pin: false,
+          scroller: scrollerRef?.current ?? undefined,
+          onRefresh: (st) => {
+            const el = scrollerRef?.current;
+            if (el && st.scroller !== el) {
+              // update target scroller and refresh
+              // @ts-expect-error: vars is writable config
+              st.vars.scroller = el;
+              st.refresh();
+            }
+          },
         },
         defaults: { ease: "none" },
       });
 
       // Rotate a full circle mapped to scroll; wrap to loop forever
-      tl.to(state, {
-        baseAngle: "+=360",
-        modifiers: {
-          baseAngle: (val) => `${gsap.utils.wrap(0, 360, parseFloat(val))}`,
-        },
-      });
+      tl.to(state, { baseAngle: "+=360" });
 
       const frontAngle = -180; // front at screen center (downwards visually if y grows positive)
       const visibleWindow = 120; // degrees span for full opacity (shows ~3-5 items)
@@ -78,7 +89,7 @@ export function ProjectsWheel() {
         for (let i = 0; i < itemsRef.current.length; i += 1) {
           const el = itemsRef.current[i];
           if (!el) continue;
-          const angleDeg = state.baseAngle + i * angleStep;
+          const angleDeg = gsap.utils.wrap(0, 360, state.baseAngle + i * angleStep);
           const rad = (angleDeg * Math.PI) / 180;
           const x = radius * Math.cos(rad) + initialPosition.x;
           const y = radius * Math.sin(rad) + initialPosition.y;
@@ -92,12 +103,12 @@ export function ProjectsWheel() {
           const rotation = angleDeg - 180;
 
           // opacity window: show only those near front
-          const delta = Math.abs(gsap.utils.wrap(-180, 180, angleDeg - frontAngle));
-          const opacity = delta < visibleWindow ? 1 : 0;
+          // const delta = Math.abs(gsap.utils.wrap(-180, 180, angleDeg - frontAngle));
+          // const opacity = delta < visibleWindow ? 1 : 0;
 
           el.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`;
-          el.style.opacity = String(opacity);
-          el.style.zIndex = String(z);
+          // el.style.opacity = String(opacity);
+          // el.style.zIndex = String(z);
         }
       };
 
@@ -113,7 +124,7 @@ export function ProjectsWheel() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [data]);
+  }, [data, scrollerRef]);
 
   return (
     <WheelContainer>
