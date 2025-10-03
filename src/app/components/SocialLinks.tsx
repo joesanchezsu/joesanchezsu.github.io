@@ -10,9 +10,8 @@ const SocialContainer = styled.div<{ $justifyCenter?: boolean }>`
 
 const SocialLink = styled.a`
   padding: 0.75rem;
-  border-radius: 0.5rem;
-  background-color: var(--gray-100);
-  color: var(--foreground);
+  border-radius: 9999px;
+  background-color: var(--yellow-photo);
   text-decoration: none;
   transition: all 0.2s ease;
   display: flex;
@@ -20,22 +19,22 @@ const SocialLink = styled.a`
   justify-content: center;
 
   &:hover {
-    background-color: var(--gray-200);
+    background-color: var(--yellow-photo-hover);
   }
 
   @media (prefers-color-scheme: dark) {
-    background-color: var(--gray-800);
+    background-color: var(--yellow-photo);
 
     &:hover {
-      background-color: var(--gray-700);
+      background-color: var(--yellow-photo-hover);
     }
   }
 
   .dark & {
-    background-color: var(--gray-800);
+    background-color: var(--yellow-photo);
 
     &:hover {
-      background-color: var(--gray-700);
+      background-color: var(--yellow-photo-hover);
     }
   }
 `;
