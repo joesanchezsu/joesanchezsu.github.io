@@ -3,17 +3,13 @@
 import Image from "next/image";
 import styled from "styled-components";
 import { SocialLinks } from "./SocialLinks";
+import { useRef, useEffect, useState } from "react";
+import gsap from "gsap";
 
 const Container = styled.section`
   width: 100%;
   height: 100%;
   padding: 2rem;
-`;
-
-const Name = styled.h2`
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--yellow-photo);
 `;
 
 const ContentContainer = styled.div`
@@ -32,10 +28,42 @@ const Content = styled.div`
   gap: 2rem;
 `;
 
+const DynamicName = styled.h2`
+  font-size: 1.48rem;
+  font-weight: 700;
+  color: var(--yellow-photo);
+  margin-bottom: 1rem;
+  position: relative;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const NameContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+`;
+
+const CharSpan = styled.span`
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+`;
+
 const AvatarContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   min-width: 300px;
 `;
 const Avatar = styled.div`
@@ -43,16 +71,17 @@ const Avatar = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  border: 2px solid var(--yellow-photo);
   width: 140px;
-  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 
-  &:hover {
+  ${Content}:hover & {
     width: 300px;
   }
 
   @media (prefers-color-scheme: dark) {
-    border-color: var(--gray-700);
+    border: 2px solid var(--yellow-photo);
   }
 `;
 
@@ -61,6 +90,7 @@ const BioContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 2rem;
+  margin-top: 60px;
 `;
 
 const Bio = styled.p`
@@ -74,12 +104,111 @@ const Bio = styled.p`
 `;
 
 export function AboutSection() {
+  const nameRef = useRef<HTMLHeadingElement>(null);
+  const shortName = "- J E  Schz -";
+  const fullName = "John Eric Sánchez Suárez";
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    if (!nameRef.current) return;
+
+    const shortChars = nameRef.current.querySelectorAll(".short-char");
+    const fullChars = nameRef.current.querySelectorAll(".full-char");
+
+    // Initial animation for short name
+    gsap.fromTo(
+      shortChars,
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.2,
+        stagger: 0.03,
+        ease: "power2.out",
+      }
+    );
+
+    return () => {
+      gsap.killTweensOf(shortChars);
+      gsap.killTweensOf(fullChars);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!nameRef.current) return;
+
+    const shortChars = nameRef.current.querySelectorAll(".short-char");
+    const fullChars = nameRef.current.querySelectorAll(".full-char");
+
+    if (isHovered) {
+      // Hide short name
+      gsap.to(shortChars, {
+        opacity: 0,
+        y: -20,
+        duration: 0.2,
+        stagger: 0.02,
+        ease: "power2.in",
+      });
+
+      // Show full name with slight delay
+      gsap.fromTo(
+        fullChars,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.2,
+          stagger: 0.015,
+          ease: "power2.out",
+          // delay: 0.1,
+        }
+      );
+    } else {
+      // Hide full name
+      gsap.to(fullChars, {
+        opacity: 0,
+        y: 20,
+        duration: 0.2,
+        stagger: 0.02,
+        ease: "power2.in",
+      });
+
+      // Show short name with slight delay
+      gsap.fromTo(
+        shortChars,
+        { opacity: 0, y: -20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.2,
+          stagger: 0.02,
+          ease: "power2.out",
+          // delay: 0.1,
+        }
+      );
+    }
+  }, [isHovered]);
+
+  const renderName = (text: string, className: string) => {
+    return text.split("").map((char, i) => (
+      <CharSpan key={`${className}-${i}`} className={className}>
+        {char === " " ? "\u00A0" : char}
+      </CharSpan>
+    ));
+  };
+
   return (
     <Container>
-      <Name>John Eric Sánchez Suárez</Name>
       <ContentContainer>
-        <Content>
+        <Content
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           <AvatarContainer>
+            <DynamicName ref={nameRef}>
+              <NameContainer>{renderName(shortName, "short-char")}</NameContainer>
+              <NameContainer>{renderName(fullName, "full-char")}</NameContainer>
+            </DynamicName>
             <Avatar>
               <Image
                 src="/images/avatar.jpg"
@@ -91,11 +220,12 @@ export function AboutSection() {
           </AvatarContainer>
           <BioContainer>
             <Bio>
-              I’m a creative frontend developer and technologist with a background in
+              I&apos;m a creative frontend developer and technologist with a background in
               mechatronics and cognitive engineering. With over 6 years of experience,
-              I’ve worked on web and mobile platforms, interactive installations, and
-              research prototypes. I bring together technical expertise and a designer’s
-              eye to craft interfaces that are both functional and visually engaging.
+              I&apos;ve worked on web and mobile platforms, interactive installations, and
+              research prototypes. I bring together technical expertise and a
+              designer&apos;s eye to craft interfaces that are both functional and
+              visually engaging.
             </Bio>
             <SocialLinks />
           </BioContainer>

@@ -33,23 +33,28 @@ export function ProjectsWheel({
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const itemsRef = useRef<HTMLButtonElement[]>([]);
-  const data = useMemo(() => projects.slice(0, Math.min(projects.length, 12)), []);
+  const data = useMemo(
+    () => projects.reverse().slice(0, Math.min(projects.length, 12)),
+    []
+  );
   const [open, setOpen] = useState(false);
   const [modalData, setModalData] = useState<ProjectModalData | undefined>();
+
+  console.log({ data });
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger, CSSPlugin);
     if (!containerRef.current) return;
 
     // ensure internal scroller is used when available
-
     const ctx = gsap.context(() => {
       const total = data.length || 1;
       const angleStep = 360 / total;
       const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
       const radius = isMobile ? 300 : 600;
+      const angleOffset = 252;
 
-      const state = { baseAngle: 0 } as { baseAngle: number };
+      const state = { baseAngle: angleOffset } as { baseAngle: number };
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -69,14 +74,12 @@ export function ProjectsWheel({
             }
           },
         },
-        defaults: { ease: "none" },
+        defaults: { ease: "power1.inOut" },
       });
 
       // Rotate a full circle mapped to scroll; wrap to loop forever
-      tl.to(state, { baseAngle: "+=360" });
+      tl.to(state, { baseAngle: "+=262" });
 
-      const frontAngle = -180; // front at screen center (downwards visually if y grows positive)
-      const visibleWindow = 120; // degrees span for full opacity (shows ~3-5 items)
       const initialPosition = { x: 370, y: -40 };
 
       // Ensure each element starts centered via translate(-50%, -50%)
@@ -95,20 +98,22 @@ export function ProjectsWheel({
           const y = radius * Math.sin(rad) + initialPosition.y;
 
           // scale by depth so front items are larger
-          // const depth = (y + radius) / (2 * radius); // 0..1
-          const scale = 1; // 0.85 + depth * 0.35; // 0.85..1.2
-          const z = Math.round(scale * 100);
+          const totalItems = itemsRef.current.length - 1;
+          const focusedIndex =
+            totalItems -
+            1 -
+            ((state.baseAngle - angleOffset) / 360) * itemsRef.current.length;
+          const distance = Math.abs(i - focusedIndex);
+
+          let scale = 1 - distance / (itemsRef.current.length - 1);
+          if (scale < 0.3) {
+            scale = 0;
+          }
 
           // align tangentially to the circle (tangent angle is angleDeg + 90)
           const rotation = angleDeg - 180;
 
-          // opacity window: show only those near front
-          // const delta = Math.abs(gsap.utils.wrap(-180, 180, angleDeg - frontAngle));
-          // const opacity = delta < visibleWindow ? 1 : 0;
-
           el.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`;
-          // el.style.opacity = String(opacity);
-          // el.style.zIndex = String(z);
         }
       };
 
@@ -137,6 +142,7 @@ export function ProjectsWheel({
             }}
             aria-label={p.title}
             title={p.title}
+            period={p.period}
             description={p.description}
             imageUrl={p.images?.[0]}
             onClick={() => {

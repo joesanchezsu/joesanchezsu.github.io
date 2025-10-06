@@ -8,14 +8,6 @@ import { ProjectsWheel } from "../components/ProjectsWheel";
 const Page = styled.main`
   min-height: 100vh;
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto;
-
-  @media (min-width: 1024px) {
-    grid-template-columns: minmax(420px, 700px) 1fr;
-    grid-template-rows: 100vh;
-  }
 `;
 
 const ProjectsWrapper = styled.div`
@@ -33,6 +25,15 @@ const StickyWheel = styled.div`
   position: sticky;
   top: 0;
   height: 100vh;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: minmax(420px, 700px) 1fr;
+    grid-template-rows: 100vh;
+  }
 `;
 
 const Spacer = styled.div`
@@ -52,16 +53,15 @@ export default function PortfolioPage() {
   }, []);
   return (
     <Page>
-      <AboutSection />
-
-      <ProjectsWrapper>
-        <ScrollArea ref={scrollerRef} id="portfolio-scroll">
-          <StickyWheel>
+      <ScrollArea ref={scrollerRef} id="portfolio-scroll">
+        <StickyWheel>
+          <AboutSection />
+          <ProjectsWrapper>
             {ready ? <ProjectsWheel scrollerRef={scrollerRef} /> : null}
-          </StickyWheel>
-          <Spacer />
-        </ScrollArea>
-      </ProjectsWrapper>
+          </ProjectsWrapper>
+        </StickyWheel>
+        <Spacer />
+      </ScrollArea>
     </Page>
   );
 }

@@ -24,9 +24,8 @@ export const projects: Project[] = [
     tech: ["React.js", "React Native", "TypeScript", "Firebase", "Node.js", "Express"],
     link: "https://www.skillagora.com/",
     images: [
-      "/images/projects/skillagora/main.jpg",
-      "/images/projects/skillagora/dashboard.jpg",
-      "/images/projects/skillagora/mobile.jpg",
+      "/images/projects/skillagora/skillagora2.jpg",
+      "/images/projects/skillagora/skillagora.png",
     ],
     imageLayout: "big-left",
   },
@@ -41,9 +40,8 @@ export const projects: Project[] = [
     tech: ["React.js", "GraphQL", "TypeScript", "Apollo Client", "Node.js", "MongoDB"],
     link: "https://www.tooshare.com/",
     images: [
-      "/images/projects/tooshare/main.jpg",
-      "/images/projects/tooshare/community.jpg",
-      "/images/projects/tooshare/learning.jpg",
+      "/images/projects/tooshare/tooshare.jpeg",
+      "/images/projects/tooshare/tooshare2.webp",
     ],
     imageLayout: "big-right",
   },
@@ -57,11 +55,7 @@ export const projects: Project[] = [
     location: "Bordeaux, France",
     tech: ["React.js", "React Native", "TypeScript", "Firebase", "Redux", "Expo"],
     link: "https://manuelnumeriquemax.belin.education/",
-    images: [
-      "/images/projects/manuel-max/main.jpg",
-      "/images/projects/manuel-max/interactive.jpg",
-      "/images/projects/manuel-max/mobile.jpg",
-    ],
+    images: ["/images/projects/manuel-max/manuel_numerique.jpeg"],
     imageLayout: "big-left",
   },
   {
@@ -73,11 +67,7 @@ export const projects: Project[] = [
     period: "2019 - 2021",
     location: "Bordeaux, France",
     tech: ["Angular", "Mapbox", "GIS", "Kotlin", "Spring Boot", "PostgreSQL"],
-    images: [
-      "/images/projects/spot-inflows/main.jpg",
-      "/images/projects/spot-inflows/map.jpg",
-      "/images/projects/spot-inflows/analytics.jpg",
-    ],
+    images: ["/images/projects/suez/suez-logo.jpg"],
     imageLayout: "big-right",
   },
   {
@@ -91,8 +81,9 @@ export const projects: Project[] = [
     tech: ["Processing", "Java", "UI/UX Design", "Computer Vision", "Touch Interface"],
     link: "https://www.17k.de/en/projects/ktm-motohall-mattighofen",
     images: [
-      "/images/projects/crazy-ideas/crazy-ideas.png",
-      "/images/projects/crazy-ideas/crazy-ideas2.png",
+      "/images/projects/crazy-ideas/crazy-ideas.jpeg",
+      "/images/projects/crazy-ideas/crazy-ideas_app.png",
+      "/images/projects/crazy-ideas/crazy-ideas_result.png",
     ],
     imageLayout: "big-left",
   },
@@ -112,7 +103,10 @@ export const projects: Project[] = [
       "Real-time Processing",
     ],
     link: "https://www.17k.de/en/projects/ktm-motohall-mattighofen",
-    images: ["/images/projects/become-hero/become-a-hero.png"],
+    images: [
+      "/images/projects/become-hero/become-hero-result.png",
+      "/images/projects/become-hero/become-a-hero.png",
+    ],
     imageLayout: "big-right",
   },
   {
@@ -149,7 +143,7 @@ export const projects: Project[] = [
     location: "Bordeaux, France",
     tech: ["Unity", "C#", "2D Platformer", "Game Design"],
     github: "https://github.com/joesanchezsu/Monsieur-Carnaval-Game",
-    images: [],
+    images: ["/images/projects/carnaval-game/carnaval.png"],
     imageLayout: "big-left",
   },
   {
@@ -178,11 +172,7 @@ export const projects: Project[] = [
     location: "Bordeaux, France",
     tech: ["Processing", "Kinect", "MIDI"],
     github: "",
-    images: [
-      "/images/projects/intui-son/main.jpg",
-      "/images/projects/intui-son/algorithms.jpg",
-      "/images/projects/intui-son/examples.jpg",
-    ],
+    images: ["/images/projects/intui-son/intui-son.png"],
     imageLayout: "big-right",
   },
 ];
