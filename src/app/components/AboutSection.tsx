@@ -105,7 +105,7 @@ const Bio = styled.p`
 
 export function AboutSection() {
   const nameRef = useRef<HTMLHeadingElement>(null);
-  const shortName = "- J E  Schz -";
+  const shortName = "J E  Schz";
   const fullName = "John Eric Sánchez Suárez";
   const [isHovered, setIsHovered] = useState(false);
 
@@ -123,7 +123,7 @@ export function AboutSection() {
         opacity: 1,
         y: 0,
         duration: 0.2,
-        stagger: 0.03,
+        stagger: 0.02,
         ease: "power2.out",
       }
     );
@@ -145,8 +145,8 @@ export function AboutSection() {
       gsap.to(shortChars, {
         opacity: 0,
         y: -20,
-        duration: 0.2,
-        stagger: 0.02,
+        duration: 0.1,
+        stagger: 0.015,
         ease: "power2.in",
       });
 
@@ -157,10 +157,9 @@ export function AboutSection() {
         {
           opacity: 1,
           y: 0,
-          duration: 0.2,
-          stagger: 0.015,
+          duration: 0.1,
+          stagger: 0.01,
           ease: "power2.out",
-          // delay: 0.1,
         }
       );
     } else {
@@ -168,8 +167,8 @@ export function AboutSection() {
       gsap.to(fullChars, {
         opacity: 0,
         y: 20,
-        duration: 0.2,
-        stagger: 0.02,
+        duration: 0.1,
+        stagger: 0.015,
         ease: "power2.in",
       });
 
@@ -180,10 +179,9 @@ export function AboutSection() {
         {
           opacity: 1,
           y: 0,
-          duration: 0.2,
-          stagger: 0.02,
+          duration: 0.1,
+          stagger: 0.015,
           ease: "power2.out",
-          // delay: 0.1,
         }
       );
     }
