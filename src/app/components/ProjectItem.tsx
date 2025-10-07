@@ -47,14 +47,13 @@ const Title = styled.div`
   z-index: 2;
   padding: 6px 10px;
   padding-left: 0;
-  margin-left: -2px;
+  margin-left: -1px;
   font-weight: 600;
   font-size: 1.25rem;
   color: var(--foreground);
 
   @media (prefers-color-scheme: dark) {
-    background: rgba(0, 0, 0, 0.5);
-    color: var(--white);
+    color: var(--gray-100);
   }
 `;
 
@@ -71,8 +70,7 @@ const Date = styled.div`
   transform: rotate(-270deg);
 
   @media (prefers-color-scheme: dark) {
-    background: rgba(0, 0, 0, 0.5);
-    color: var(--white);
+    color: var(--gray-100);
   }
 `;
 

@@ -30,8 +30,8 @@ const StickyWheel = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: auto auto;
 
-  @media (min-width: 1024px) {
-    grid-template-columns: minmax(420px, 700px) 1fr;
+  @media (min-width: 1660px) {
+    grid-template-columns: minmax(420px, 1024px) 1fr;
     grid-template-rows: 100vh;
   }
 `;

@@ -7,9 +7,10 @@ import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 
 const Container = styled.section`
-  width: 100%;
+  max-width: 680px;
   height: 100%;
-  padding: 2rem;
+  padding: 3rem;
+  margin: 0 auto;
 `;
 
 const ContentContainer = styled.div`
