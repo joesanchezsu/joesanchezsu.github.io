@@ -43,7 +43,7 @@ const CenterCircle = styled.div`
   width: 600px;
   height: 600px;
   border-radius: 50%;
-  border: 1px solid var(--gray-200);
+  border: 2px solid var(--gray-400);
   background: rgba(0, 0, 0, 0);
   z-index: 0;
 `;
@@ -221,7 +221,7 @@ export function ProjectsWheel({
             aria-label={p.title}
             title={p.title}
             period={p.period}
-            description={p.description}
+            description={p.shortDescription}
             imageUrl={p.images?.[0]}
             onClick={() => {
               setModalData({

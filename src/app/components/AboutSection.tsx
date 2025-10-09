@@ -16,10 +16,9 @@ const Container = styled.section`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   height: 90%;
-  gap: 2rem;
+  gap: 1rem;
 `;
 
 const Content = styled.div`
@@ -30,7 +29,7 @@ const Content = styled.div`
 `;
 
 const DynamicName = styled.h2`
-  font-size: 1.48rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--yellow-photo);
   margin-bottom: 1rem;
@@ -101,6 +100,48 @@ const Bio = styled.p`
 
   @media (prefers-color-scheme: dark) {
     color: var(--gray-400);
+  }
+`;
+
+const ResumeLink = styled.a`
+  position: relative;
+  margin-top: -4px;
+  margin-left: 92px;
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 5px;
+  font-weight: 700;
+  color: var(--yellow-photo);
+  font-size: 1.25rem;
+  transition: background-color 200ms ease, color 200ms ease;
+
+  > span:first-child {
+    text-decoration: underline;
+  }
+
+  &:hover {
+    color: var(--background);
+    transition: color 300ms ease;
+    will-change: color;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    border-color: var(--yellow-photo);
+  }
+`;
+
+const EyesIcon = styled.span`
+  position: absolute;
+  font-size: 2rem;
+  margin-top: -7px;
+  margin-left: -1px;
+  transform: scale(0);
+  transition: transform 250ms ease;
+  will-change: transform;
+
+  ${ResumeLink}:hover & {
+    transform: scale(1.4, 1.2);
+    transition: transform 250ms ease;
   }
 `;
 
@@ -229,6 +270,15 @@ export function AboutSection() {
             <SocialLinks />
           </BioContainer>
         </Content>
+        <ResumeLink
+          href="/docs/resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open CV in a new tab"
+        >
+          <span>CV</span>
+          <EyesIcon>👀</EyesIcon>
+        </ResumeLink>
       </ContentContainer>
     </Container>
   );

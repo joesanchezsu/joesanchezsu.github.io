@@ -102,7 +102,7 @@ const Overlay = styled.div`
 `;
 
 const OverlayText = styled.p`
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   line-height: 1.35;
   text-align: left;
   max-height: 200px;

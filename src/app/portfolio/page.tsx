@@ -40,6 +40,36 @@ const Spacer = styled.div`
   height: 3200px; /* controls scroll length */
 `;
 
+const Footer = styled.footer`
+  /* border-top: 1px solid var(--gray-200); */
+  /* margin-top: 4rem; */
+
+  @media (prefers-color-scheme: dark) {
+    border-top-color: var(--gray-800);
+  }
+
+  .dark & {
+    border-top-color: var(--gray-800);
+  }
+`;
+
+const FooterContent = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: left;
+  color: var(--gray-600);
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--gray-400);
+  }
+
+  .dark & {
+    color: var(--gray-400);
+  }
+`;
+
 export default function PortfolioPage() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
@@ -62,6 +92,11 @@ export default function PortfolioPage() {
         </StickyWheel>
         <Spacer />
       </ScrollArea>
+      <Footer>
+        <FooterContent>
+          <p>&copy; 2025 Made with ❤️ by John Eric Sánchez Suárez</p>
+        </FooterContent>
+      </Footer>
     </Page>
   );
 }
