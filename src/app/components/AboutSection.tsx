@@ -140,7 +140,7 @@ const EyesIcon = styled.span`
   will-change: transform;
 
   ${ResumeLink}:hover & {
-    transform: scale(1.4, 1.2);
+    transform: scale(1.2, 1);
     transition: transform 250ms ease;
   }
 `;
