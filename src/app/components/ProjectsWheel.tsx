@@ -222,12 +222,13 @@ export function ProjectsWheel({
             title={p.title}
             period={p.period}
             description={p.shortDescription}
-            imageUrl={p.images?.[0]}
+            imageUrl={p.thumbnail}
             onClick={() => {
               setModalData({
                 title: p.title,
                 description: p.description,
                 tech: p.tech,
+                mainMedia: p.mainMedia,
                 images: p.images,
               });
               setOpen(true);

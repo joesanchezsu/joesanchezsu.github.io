@@ -1,3 +1,5 @@
+import { MediaItem } from "@/app/components/ProjectModal";
+
 export interface Project {
   id: string;
   slug: string;
@@ -11,8 +13,9 @@ export interface Project {
   tech: string[];
   link?: string;
   github?: string;
+  thumbnail?: string;
+  mainMedia?: MediaItem;
   images?: string[];
-  imageLayout?: "big-left" | "big-right";
 }
 
 export const projects: Project[] = [
@@ -29,11 +32,11 @@ export const projects: Project[] = [
     location: "Bordeaux, France",
     tech: ["React.js", "React Native", "TypeScript", "Firebase", "Node.js", "Express"],
     link: "https://www.skillagora.com/",
+    thumbnail: "/images/projects/skillagora/skillagora2.jpg",
     images: [
       "/images/projects/skillagora/skillagora2.jpg",
       "/images/projects/skillagora/skillagora.png",
     ],
-    imageLayout: "big-left",
   },
   {
     id: "tooshare",
@@ -49,11 +52,11 @@ export const projects: Project[] = [
     location: "Remote",
     tech: ["React.js", "GraphQL", "TypeScript", "Apollo Client", "Node.js", "MongoDB"],
     link: "https://www.tooshare.com/",
+    thumbnail: "/images/projects/tooshare/tooshare.jpeg",
     images: [
       "/images/projects/tooshare/tooshare.jpeg",
       "/images/projects/tooshare/tooshare2.webp",
     ],
-    imageLayout: "big-right",
   },
   {
     id: "manuel-numerique-max",
@@ -69,8 +72,8 @@ export const projects: Project[] = [
     location: "Bordeaux, France",
     tech: ["React.js", "React Native", "TypeScript", "Firebase", "Redux", "Expo"],
     link: "https://manuelnumeriquemax.belin.education/",
+    thumbnail: "/images/projects/manuel-max/manuel_numerique.jpeg",
     images: ["/images/projects/manuel-max/manuel_numerique.jpeg"],
-    imageLayout: "big-left",
   },
   {
     id: "spot-inflows",
@@ -85,8 +88,8 @@ export const projects: Project[] = [
     period: "2019 - 2021",
     location: "Bordeaux, France",
     tech: ["Angular", "Mapbox", "GIS", "Kotlin", "Spring Boot", "PostgreSQL"],
+    thumbnail: "/images/projects/suez/suez-logo.jpg",
     images: ["/images/projects/suez/suez-logo.jpg"],
-    imageLayout: "big-right",
   },
   {
     id: "crazy-ideas",
@@ -102,12 +105,12 @@ export const projects: Project[] = [
     location: "Stuttgart, Germany",
     tech: ["Processing", "Java", "UI/UX Design", "Computer Vision", "Touch Interface"],
     link: "https://www.17k.de/en/projects/ktm-motohall-mattighofen",
+    thumbnail: "/images/projects/crazy-ideas/crazy-ideas.jpeg",
     images: [
       "/images/projects/crazy-ideas/crazy-ideas.jpeg",
       "/images/projects/crazy-ideas/crazy-ideas_app.png",
       "/images/projects/crazy-ideas/crazy-ideas_result.png",
     ],
-    imageLayout: "big-left",
   },
   {
     id: "become-a-hero",
@@ -129,11 +132,14 @@ export const projects: Project[] = [
       "Real-time Processing",
     ],
     link: "https://www.17k.de/en/projects/ktm-motohall-mattighofen",
+    thumbnail: "/images/projects/become-hero/become-hero-result.png",
     images: [
       "/images/projects/become-hero/become-hero-result.png",
-      "/images/projects/become-hero/become-a-hero.png",
+      "/images/projects/become-hero/become-hero.png",
+      "/images/projects/become-hero/become-hero2.png",
+      "/images/projects/become-hero/become-hero3.png",
+      "/images/projects/become-hero/become-hero4.png",
     ],
-    imageLayout: "big-right",
   },
   {
     id: "inner-flower",
@@ -157,11 +163,11 @@ export const projects: Project[] = [
       "Physiological Sensors",
     ],
     link: "https://labs.ullo.fr/projects/flower/",
+    thumbnail: "/images/projects/inner-flower/inner-flower.png",
     images: [
       "/images/projects/inner-flower/inner-flower.png",
       "/images/projects/inner-flower/inner-flower2.png",
     ],
-    imageLayout: "big-left",
   },
   {
     id: "carnaval-game",
@@ -176,8 +182,17 @@ export const projects: Project[] = [
     location: "Bordeaux, France",
     tech: ["Unity", "C#", "2D Platformer", "Game Design"],
     github: "https://github.com/joesanchezsu/Monsieur-Carnaval-Game",
-    images: ["/images/projects/carnaval-game/carnaval.png"],
-    imageLayout: "big-left",
+    thumbnail: "/images/projects/carnaval-game/carnaval.png",
+    mainMedia: {
+      src: "/images/projects/carnaval-game/carnaval_game.mp4",
+      type: "video",
+      alt: "Carnaval Augmenté - The Game",
+    },
+    images: [
+      "/images/projects/carnaval-game/carnaval.png",
+      "/images/projects/carnaval-game/carnaval-game3.jpg",
+      "/images/projects/carnaval-game/carnaval-ar.png",
+    ],
   },
   {
     id: "crehappy",
@@ -192,11 +207,16 @@ export const projects: Project[] = [
     location: "Bordeaux, France",
     tech: ["Arduino", "Leap Motion", "Processing", "Motion Detection", "AP-SYNC library"],
     github: "https://github.com/joesanchezsu/crehappy",
+    thumbnail: "/images/projects/crehappy/crehappy.png",
+    mainMedia: {
+      src: "/images/projects/crehappy/crehappy_clip.mp4",
+      type: "video",
+      alt: "CreHappy",
+    },
     images: [
       "/images/projects/crehappy/crehappy.png",
       "/images/projects/crehappy/crehappy2.png",
     ],
-    imageLayout: "big-left",
   },
   {
     id: "intui-son",
@@ -211,7 +231,7 @@ export const projects: Project[] = [
     location: "Bordeaux, France",
     tech: ["Processing", "Kinect", "MIDI"],
     github: "",
+    thumbnail: "/images/projects/intui-son/intui-son.png",
     images: ["/images/projects/intui-son/intui-son.png"],
-    imageLayout: "big-right",
   },
 ];

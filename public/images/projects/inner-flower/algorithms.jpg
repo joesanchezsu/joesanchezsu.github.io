@@ -1,7 +1,0 @@
-<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
-  <rect width="400" height="300" fill="#10B981"/>
-  <text x="200" y="150" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Algorithms</text>
-  <text x="200" y="180" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">Linear Regression</text>
-  <text x="200" y="200" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">Decision Trees</text>
-  <text x="200" y="220" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">Neural Networks</text>
-</svg>

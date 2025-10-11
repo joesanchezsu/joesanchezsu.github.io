@@ -1,7 +1,0 @@
-<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
-  <rect width="400" height="300" fill="#8B5CF6"/>
-  <text x="200" y="150" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Examples</text>
-  <text x="200" y="180" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">Jupyter Notebooks</text>
-  <text x="200" y="200" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">Documentation</text>
-  <text x="200" y="220" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">Tutorials</text>
-</svg>

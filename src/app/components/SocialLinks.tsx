@@ -12,7 +12,7 @@ const SocialLink = styled.a<{ $inverted?: boolean }>`
   padding: 0.75rem;
   border-radius: 9999px;
   background-color: ${({ $inverted }) =>
-    $inverted ? "var(--white)" : "var(--yellow-photo)"};
+    $inverted ? "var(--gray-200)" : "var(--yellow-photo)"};
   text-decoration: none;
   transition: all 0.2s ease;
   display: flex;
@@ -26,7 +26,7 @@ const SocialLink = styled.a<{ $inverted?: boolean }>`
 
   @media (prefers-color-scheme: dark) {
     background-color: ${({ $inverted }) =>
-      $inverted ? "var(--white)" : "var(--yellow-photo)"};
+      $inverted ? "var(--gray-200)" : "var(--yellow-photo)"};
 
     &:hover {
       background-color: ${({ $inverted }) =>
@@ -36,7 +36,7 @@ const SocialLink = styled.a<{ $inverted?: boolean }>`
 
   .dark & {
     background-color: ${({ $inverted }) =>
-      $inverted ? "var(--white)" : "var(--yellow-photo)"};
+      $inverted ? "var(--gray-200)" : "var(--yellow-photo)"};
 
     &:hover {
       background-color: ${({ $inverted }) =>
