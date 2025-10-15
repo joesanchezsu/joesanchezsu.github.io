@@ -7,13 +7,28 @@ interface CurvedTextProps extends React.HTMLAttributes<HTMLDivElement> {
   radius?: number; // radio del círculo
   arc?: number; // grados del arco que ocupa el texto (0-360)
   color?: string;
+  fontSize?: string;
+  onTextClick?: () => void;
 }
 
-const SvgWrapper = styled.div<{ $radius: number }>`
+const SvgWrapper = styled.div<{ $radius: number; $onTextClick: boolean }>`
   position: absolute;
   width: ${({ $radius }) => 2 * $radius}px;
   height: ${({ $radius }) => 2 * $radius}px;
   overflow: visible;
+
+  text {
+    cursor: ${({ $onTextClick }) => ($onTextClick ? "pointer" : "default")};
+    transform: scale(1);
+    transition: transform 220ms ease;
+    will-change: transform;
+
+    &:hover {
+      transform: scale(1.07);
+      transition: transform 220ms ease;
+      will-change: transform;
+    }
+  }
 `;
 
 const CurvedText: React.FC<CurvedTextProps> = ({
@@ -22,6 +37,8 @@ const CurvedText: React.FC<CurvedTextProps> = ({
   radius = 300,
   arc = 140,
   color = "var(--yellow-photo)",
+  fontSize = "24px",
+  onTextClick,
   ...props
 }) => {
   const pathId = `curve-${text.replace(/\s+/g, "-")}`;
@@ -40,18 +57,19 @@ const CurvedText: React.FC<CurvedTextProps> = ({
   `;
 
   return (
-    <SvgWrapper $radius={radius} {...props}>
+    <SvgWrapper $radius={radius} $onTextClick={!!onTextClick} {...props}>
       <svg width={radius * 2} height={radius * 2}>
         <defs>
           <path id={pathId} d={path} fill="none" />
         </defs>
 
         <text
-          fontSize="24px"
+          fontSize={fontSize}
           fill={color}
           fontWeight="600"
           textAnchor="start"
           dominantBaseline="hanging"
+          onClick={onTextClick}
         >
           <textPath href={`#${pathId}`}>{text}</textPath>
         </text>
