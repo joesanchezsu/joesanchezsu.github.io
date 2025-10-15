@@ -60,7 +60,6 @@ const CurvedCloseContainer = styled.div`
   width: 50px;
   height: 50px;
   z-index: 10;
-  cursor: pointer;
 `;
 
 const Body = styled.div`
@@ -75,8 +74,8 @@ const Body = styled.div`
 `;
 
 const Description = styled.p`
-  font-size: 1.25rem;
-  color: var(--gray-600);
+  font-size: 1.2rem;
+  color: var(--gray-300);
 
   @media (prefers-color-scheme: dark) {
     color: var(--gray-300);
@@ -169,6 +168,8 @@ export interface ProjectModalData {
   thumbnails?: MediaItem[];
   // Fallback for old format
   images?: string[];
+  // Optional - used for FLIP transition from clicked thumbnail
+  originRect?: DOMRect | undefined;
 }
 
 interface ProjectModalProps {
@@ -179,19 +180,79 @@ interface ProjectModalProps {
 
 export function ProjectModal({ open, data, onClose }: ProjectModalProps) {
   const [selectedMedia, setSelectedMedia] = React.useState<MediaItem | null>(null);
+  const panelRef = React.useRef<HTMLDivElement | null>(null);
+  const closingRef = React.useRef(false);
+
+  // Close animation (FLIP back to originRect) then call onClose
+  const requestClose = React.useCallback(() => {
+    if (closingRef.current) return;
+    const origin = data?.originRect;
+    const panel = panelRef.current;
+    if (!origin || !panel) {
+      onClose();
+      return;
+    }
+
+    closingRef.current = true;
+    const panelRect = panel.getBoundingClientRect();
+    const scaleX = origin.width / Math.max(panelRect.width, 1);
+    const scaleY = origin.height / Math.max(panelRect.height, 1);
+    const translateX = origin.left - panelRect.left;
+    const translateY = origin.top - panelRect.top;
+
+    // Ensure we're at identity before animating out
+    panel.style.transition =
+      "opacity 340ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 340ms cubic-bezier(0.2, 0.8, 0.2, 1)";
+
+    // Trigger layout to ensure transition applies
+    void panel.offsetHeight;
+    panel.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
+    panel.style.opacity = "0";
+
+    const handleEnd = () => {
+      panel.removeEventListener("transitionend", handleEnd);
+      // Clean up inline styles
+      panel.style.transition = "";
+      panel.style.transform = "";
+      closingRef.current = false;
+      onClose();
+    };
+    panel.addEventListener("transitionend", handleEnd, { once: true });
+  }, [data?.originRect, onClose]);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") requestClose();
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+  }, [open, requestClose]);
 
   // Set initial selected media when modal opens
   useEffect(() => {
     if (open && data) {
+      // FLIP: animate from originRect (thumbnail) to dialog panel
+      if (data.originRect && panelRef.current) {
+        const rect = data.originRect;
+        const panel = panelRef.current;
+        const panelRect = panel.getBoundingClientRect();
+
+        const scaleX = rect.width / Math.max(panelRect.width, 1);
+        const scaleY = rect.height / Math.max(panelRect.height, 1);
+        const translateX = rect.left - panelRect.left;
+        const translateY = rect.top - panelRect.top;
+
+        // set initial transform to thumbnail's geometry
+        panel.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
+        panel.style.willChange = "transform";
+
+        requestAnimationFrame(() => {
+          panel.style.transition = "transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1)";
+          panel.style.transform = "translate(0px, 0px) scale(1, 1)";
+        });
+      }
+
       if (data.mainMedia) {
         setSelectedMedia(data.mainMedia);
       } else if (data.images && data.images.length > 0) {
@@ -231,15 +292,22 @@ export function ProjectModal({ open, data, onClose }: ProjectModalProps) {
   const allMedia = getAllMedia();
 
   return createPortal(
-    <Backdrop onClick={onClose}>
-      <Dialog role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
-        <CurvedCloseContainer onClick={onClose}>
+    <Backdrop onClick={requestClose}>
+      <Dialog
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
+        style={{ transformOrigin: "top left" }}
+      >
+        <CurvedCloseContainer>
           <CurvedText
             text="close"
             radius={90}
             arc={120}
             initialAngle={240}
             color="var(--yellow-photo)"
+            onTextClick={requestClose}
           />
         </CurvedCloseContainer>
         <Header>

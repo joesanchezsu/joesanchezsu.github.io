@@ -77,6 +77,7 @@ export function ProjectsWheel({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const itemsRef = useRef<HTMLButtonElement[]>([]);
   const curvedTextsContainerRef = useRef<HTMLDivElement | null>(null);
+  const angleOffset = 252;
 
   const data = useMemo(
     () => projects.reverse().slice(0, Math.min(projects.length, 12)),
@@ -101,6 +102,27 @@ export function ProjectsWheel({
 
   const [open, setOpen] = useState(false);
   const [modalData, setModalData] = useState<ProjectModalData | undefined>();
+  const lastScrollTopRef = useRef<number>(0);
+
+  const openProjectModal = (dataForModal: ProjectModalData) => {
+    lastScrollTopRef.current = scrollerRef?.current?.scrollTop ?? 0;
+    setModalData(dataForModal);
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+    const el = scrollerRef?.current;
+    if (el) {
+      requestAnimationFrame(() => {
+        el.scrollTop = lastScrollTopRef.current;
+        try {
+          ScrollTrigger.update();
+          // el.scrollTo({ top: lastScrollTopRef.current, behavior: "smooth" });
+        } catch {}
+      });
+    }
+  };
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger, CSSPlugin);
@@ -112,9 +134,19 @@ export function ProjectsWheel({
       const angleStepProjects = 360 / totalProjects;
       const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
       const radius = isMobile ? 300 : 600;
-      const angleOffset = 252;
 
-      const state = { baseAngle: angleOffset } as { baseAngle: number };
+      // const scrolledHeight = scrollerRef?.current?.scrollTop ?? 0;
+      // console.log(scrollerRef?.current?.scrollHeight);
+      // const scrolledAnglePercentage =
+      //   scrolledHeight / (scrollerRef?.current?.scrollHeight ?? 0);
+      // const scrolledAngle = scrolledAnglePercentage * 360;
+      // const state = { baseAngle: scrolledAngle + angleOffset } as {
+      //   baseAngle: number;
+      // };
+
+      const state = { baseAngle: angleOffset } as {
+        baseAngle: number;
+      };
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -223,19 +255,20 @@ export function ProjectsWheel({
             period={p.period}
             description={p.shortDescription}
             imageUrl={p.thumbnail}
-            onClick={() => {
-              setModalData({
+            onClick={() =>
+              openProjectModal({
                 title: p.title,
                 description: p.description,
                 tech: p.tech,
                 mainMedia: p.mainMedia,
                 images: p.images,
-              });
-              setOpen(true);
-            }}
+                // Pass origin rect for FLIP transition
+                originRect: itemsRef.current[i]?.getBoundingClientRect(),
+              })
+            }
           />
         ))}
-        <ProjectModal open={open} data={modalData} onClose={() => setOpen(false)} />
+        <ProjectModal open={open} data={modalData} onClose={handleCloseModal} />
       </WheelInner>
     </WheelContainer>
   );
