@@ -33,6 +33,11 @@ const WheelContainer = styled.section`
   justify-content: center;
 `;
 
+const WheelWrapper = styled.div`
+  position: relative;
+  transform: translate(350px, 0px); /* static CSS transform */
+`;
+
 const WorkText = styled.div`
   position: absolute;
   left: 50%;
@@ -45,17 +50,16 @@ const WorkText = styled.div`
   color: var(--yellow-photo);
 `;
 
-const WheelInner = styled(motion.div)`
+const WheelInner = styled.div`
   position: relative;
   width: 1000px;
   height: 1000px;
 `;
 
-const CenterCircle = styled.div`
+const CenterCircle = styled(motion.div)`
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  left: 20%;
+  top: 20%;
   width: 600px;
   height: 600px;
   border-radius: 50%;
@@ -88,7 +92,7 @@ export function ProjectsWheel({
 }) {
   const [open, setOpen] = useState(false);
   const [modalData, setModalData] = useState<ProjectModalData | undefined>();
-  const translationOffset = { x: 350, y: 0 };
+  // const translationOffset = { x: 350, y: 0 };
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const radius = isMobile ? 300 : 600;
 
@@ -108,18 +112,18 @@ export function ProjectsWheel({
     []
   );
 
-  const transformData = useMemo(() => {
-    return data.map((p, i) => {
-      const angleOffset = -108;
-      const angleDeg = angleOffset + (i * 360) / data.length || 1;
-      const x = radius * Math.cos((angleDeg * Math.PI) / 180);
-      const y = radius * Math.sin((angleDeg * Math.PI) / 180);
-      const scale = 1;
-      const rotation = angleDeg - 180;
+  // const transformData = useMemo(() => {
+  //   return data.map((p, i) => {
+  //     const angleOffset = -108;
+  //     const angleDeg = angleOffset + (i * 360) / data.length || 1;
+  //     const x = radius * Math.cos((angleDeg * Math.PI) / 180);
+  //     const y = radius * Math.sin((angleDeg * Math.PI) / 180);
+  //     const scale = 1;
+  //     const rotation = angleDeg - 180;
 
-      return { x, y, scale, rotate: rotation };
-    });
-  }, [data, radius]);
+  //     return { x, y, scale, rotate: rotation };
+  //   });
+  // }, [data, radius]);
 
   const arr = data.map((p) => p.company).filter((c) => c !== undefined);
   const companies: CompanyInfo[] = Object.values(
@@ -148,103 +152,64 @@ export function ProjectsWheel({
 
   return (
     <WheelContainer>
-      <LayoutGroup>
-        <WheelInner
-          initial={false}
-          style={{
-            rotate: smoothRotation,
-            x: translationOffset.x,
-            y: translationOffset.y,
-          }}
-        >
-          <CenterCircle>
-            <CurvedTextsContainer ref={curvedTextsContainerRef}>
-              {companies.map((c) => (
-                <CurvedText
-                  key={c.name}
-                  text={c.name === "Betomorrow" ? c.name + " - " + c.role : c.name}
-                  radius={350}
-                  arc={c.occurrences * (360 / data.length)}
-                  initialAngle={
-                    c.firstIndex * (360 / data.length) -
-                    (c.name === "Betomorrow" ? 160 : 135)
-                  }
-                />
-              ))}
-            </CurvedTextsContainer>
-          </CenterCircle>
-          <WorkText>Work</WorkText>
+      <WheelWrapper>
+        <LayoutGroup>
+          <WheelInner>
+            <CenterCircle style={{ rotate: smoothRotation }}>
+              <CurvedTextsContainer ref={curvedTextsContainerRef}>
+                {companies.map((c) => (
+                  <CurvedText
+                    key={c.name}
+                    text={c.name === "Betomorrow" ? c.name + " - " + c.role : c.name}
+                    radius={350}
+                    arc={c.occurrences * (360 / data.length)}
+                    initialAngle={
+                      c.firstIndex * (360 / data.length) -
+                      (c.name === "Betomorrow" ? 160 : 135)
+                    }
+                  />
+                ))}
+              </CurvedTextsContainer>
+            </CenterCircle>
 
-          <ItemsContainer>
-            {data.map((p, i) => (
-              <ProjectItem
-                key={p.slug}
-                layoutId={p.slug}
-                aria-label={p.title}
-                title={p.title}
-                period={p.period}
-                description={p.shortDescription}
-                imageUrl={p.thumbnail}
-                transformData={transformData[i]}
-                onClick={() =>
-                  openProjectModal({
-                    ...p,
-                    layoutId: p.slug,
-                  })
-                }
-              />
-            ))}
-          </ItemsContainer>
+            <WorkText>Work</WorkText>
 
-          {/* <ItemsContainer>
-            {data.map((p, i) => {
-              const baseAngle = -108 + i * (360 / data.length);
+            <ItemsContainer>
+              {data.map((p, i) => {
+                const angleOffset = -108;
+                const baseAngle = angleOffset + (i * 360) / data.length;
 
-              // instead of useTransform, we can derive motion style from wheelRotation dynamically:
-              const style = {
-                transform: smoothRotation.to((r) => {
-                  const rad = ((baseAngle + r) * Math.PI) / 180;
-                  const x = radius * Math.cos(rad);
-                  const y = radius * Math.sin(rad);
-
-                  // scale depends on distance from left side (-radius)
-                  const focusX = -radius;
-                  const distance = Math.abs(x - focusX);
-                  const maxDistance = radius * 1.5;
-                  const t = Math.min(distance / maxDistance, 1);
-                  const scale = 1 - t * 0.5; // range: 1 → 0.5
-
-                  return `translate(${x}px, ${y}px) rotate(${
-                    baseAngle - 180
-                  }deg) scale(${scale})`;
-                }),
-              };
-
-              return (
-                <motion.div
-                  key={p.slug}
-                  style={style}
-                  layoutId={p.slug}
-                  onClick={() => openProjectModal({ ...p, layoutId: p.slug })}
-                >
+                return (
                   <ProjectItem
+                    key={p.slug}
+                    layoutId={p.slug}
+                    aria-label={p.title}
                     title={p.title}
                     period={p.period}
                     description={p.shortDescription}
                     imageUrl={p.thumbnail}
+                    baseAngle={baseAngle}
+                    radius={radius}
+                    wheelRotation={wheelRotation}
+                    onClick={() =>
+                      openProjectModal({
+                        ...p,
+                        layoutId: p.slug,
+                      })
+                    }
                   />
-                </motion.div>
-              );
-            })}
-          </ItemsContainer> */}
+                );
+              })}
+            </ItemsContainer>
 
-          <AnimatePresence>
-            {open && modalData && (
-              <ProjectModal open={open} data={modalData} onClose={handleCloseModal} />
-            )}
-          </AnimatePresence>
-        </WheelInner>
-      </LayoutGroup>
+            <AnimatePresence>
+              {open && modalData && (
+                <ProjectModal open={open} data={modalData} onClose={handleCloseModal} />
+              )}
+            </AnimatePresence>
+          </WheelInner>
+        </LayoutGroup>
+      </WheelWrapper>
     </WheelContainer>
   );
 }

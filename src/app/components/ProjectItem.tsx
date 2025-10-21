@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, MotionValue, useTransform } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 
@@ -123,12 +123,9 @@ export interface ProjectItemProps extends React.ButtonHTMLAttributes<HTMLButtonE
   description?: string;
   imageUrl?: string;
   layoutId?: string;
-  transformData?: {
-    x: number;
-    y: number;
-    scale: number;
-    rotate: number;
-  };
+  baseAngle: number;
+  radius: number;
+  wheelRotation: MotionValue<number>;
 }
 
 export const ProjectItem = ({
@@ -138,11 +135,23 @@ export const ProjectItem = ({
   imageUrl,
   layoutId,
   onClick,
-  transformData,
+  baseAngle,
+  radius,
+  wheelRotation,
 }: ProjectItemProps) => {
-  console.log({ title, transformData });
+  // Compute angle based on scroll-driven wheelRotation
+  const angle = useTransform(wheelRotation, (r) => baseAngle + r);
+  const x = useTransform(angle, (a) => radius * Math.cos((a * Math.PI) / 180));
+  const y = useTransform(angle, (a) => radius * Math.sin((a * Math.PI) / 180));
+  const rotate = useTransform(angle, (a) => a - 180);
+
   return (
-    <Card layoutId={layoutId} aria-label={title} onClick={onClick} style={transformData}>
+    <Card
+      layoutId={layoutId}
+      aria-label={title}
+      onClick={onClick}
+      style={{ x, y, rotate, scale: 1 }}
+    >
       <Media $image={imageUrl} />
       <Overlay>{description ? <OverlayText>{description}</OverlayText> : null}</Overlay>
       <Title>{title}</Title>
