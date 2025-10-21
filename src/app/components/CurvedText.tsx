@@ -24,7 +24,7 @@ const SvgWrapper = styled.div<{ $radius: number; $onTextClick: boolean }>`
     will-change: transform;
 
     &:hover {
-      transform: scale(1.07);
+      transform: ${({ $onTextClick }) => ($onTextClick ? "scale(1.07)" : "scale(1)")};
       transition: transform 220ms ease;
       will-change: transform;
     }

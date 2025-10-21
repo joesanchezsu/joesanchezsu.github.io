@@ -1,13 +1,13 @@
 "use client";
 
-import React, { forwardRef } from "react";
+import { motion } from "framer-motion";
+import React from "react";
 import styled from "styled-components";
 
-const Card = styled.button`
+const Card = styled(motion.button)`
   position: absolute; /* Positioned by parent (wheel) via transforms */
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
   width: 350px;
   height: 250px;
   border-radius: 0px;
@@ -122,19 +122,31 @@ export interface ProjectItemProps extends React.ButtonHTMLAttributes<HTMLButtonE
   period?: string;
   description?: string;
   imageUrl?: string;
+  layoutId?: string;
+  transformData?: {
+    x: number;
+    y: number;
+    scale: number;
+    rotate: number;
+  };
 }
 
-export const ProjectItem = forwardRef<HTMLButtonElement, ProjectItemProps>(
-  ({ title, period, description, imageUrl, ...buttonProps }, ref) => {
-    return (
-      <Card ref={ref} {...buttonProps} aria-label={title}>
-        <Media $image={imageUrl} />
-        <Overlay>{description ? <OverlayText>{description}</OverlayText> : null}</Overlay>
-        <Title>{title}</Title>
-        {period && <Date>{period}</Date>}
-      </Card>
-    );
-  }
-);
-
-ProjectItem.displayName = "ProjectItem";
+export const ProjectItem = ({
+  title,
+  period,
+  description,
+  imageUrl,
+  layoutId,
+  onClick,
+  transformData,
+}: ProjectItemProps) => {
+  console.log({ title, transformData });
+  return (
+    <Card layoutId={layoutId} aria-label={title} onClick={onClick} style={transformData}>
+      <Media $image={imageUrl} />
+      <Overlay>{description ? <OverlayText>{description}</OverlayText> : null}</Overlay>
+      <Title>{title}</Title>
+      {period && <Date>{period}</Date>}
+    </Card>
+  );
+};

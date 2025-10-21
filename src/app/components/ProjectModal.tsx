@@ -2,10 +2,11 @@
 
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import CurvedText from "./CurvedText";
 
-const Backdrop = styled.div`
+const Backdrop = styled(motion.div)`
   position: fixed;
   inset: 0;
   background: var(--background);
@@ -17,12 +18,11 @@ const Backdrop = styled.div`
   backdrop-filter: blur(4px);
 `;
 
-const Dialog = styled.div`
+const Dialog = styled(motion.div)`
   position: relative;
   width: min(86vw, 92vw);
   min-height: 86vh;
   max-height: 92vh;
-  /* background: var(--background); */
   background: rgba(17, 17, 17, 0.7);
   color: var(--foreground);
   border: 2px solid var(--yellow-photo);
@@ -125,7 +125,7 @@ const ThumbnailItem = styled.div<{ $isActive?: boolean }>`
   background: var(--gray-100);
   overflow: hidden;
   cursor: pointer;
-  border: 2px solid
+  border: 4px solid
     ${({ $isActive }) => ($isActive ? "var(--yellow-photo)" : "transparent")};
   transition: border-color 0.2s ease;
 
@@ -166,10 +166,8 @@ export interface ProjectModalData {
   tech?: string[];
   mainMedia?: MediaItem;
   thumbnails?: MediaItem[];
-  // Fallback for old format
   images?: string[];
-  // Optional - used for FLIP transition from clicked thumbnail
-  originRect?: DOMRect | undefined;
+  layoutId?: string;
 }
 
 interface ProjectModalProps {
@@ -180,83 +178,22 @@ interface ProjectModalProps {
 
 export function ProjectModal({ open, data, onClose }: ProjectModalProps) {
   const [selectedMedia, setSelectedMedia] = React.useState<MediaItem | null>(null);
-  const panelRef = React.useRef<HTMLDivElement | null>(null);
-  const closingRef = React.useRef(false);
-
-  // Close animation (FLIP back to originRect) then call onClose
-  const requestClose = React.useCallback(() => {
-    if (closingRef.current) return;
-    const origin = data?.originRect;
-    const panel = panelRef.current;
-    if (!origin || !panel) {
-      onClose();
-      return;
-    }
-
-    closingRef.current = true;
-    const panelRect = panel.getBoundingClientRect();
-    const scaleX = origin.width / Math.max(panelRect.width, 1);
-    const scaleY = origin.height / Math.max(panelRect.height, 1);
-    const translateX = origin.left - panelRect.left;
-    const translateY = origin.top - panelRect.top;
-
-    // Ensure we're at identity before animating out
-    panel.style.transition =
-      "opacity 340ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 340ms cubic-bezier(0.2, 0.8, 0.2, 1)";
-
-    // Trigger layout to ensure transition applies
-    void panel.offsetHeight;
-    panel.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
-    panel.style.opacity = "0";
-
-    const handleEnd = () => {
-      panel.removeEventListener("transitionend", handleEnd);
-      // Clean up inline styles
-      panel.style.transition = "";
-      panel.style.transform = "";
-      closingRef.current = false;
-      onClose();
-    };
-    panel.addEventListener("transitionend", handleEnd, { once: true });
-  }, [data?.originRect, onClose]);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") requestClose();
+      if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [open, requestClose]);
+  }, [open, onClose]);
 
   // Set initial selected media when modal opens
   useEffect(() => {
     if (open && data) {
-      // FLIP: animate from originRect (thumbnail) to dialog panel
-      if (data.originRect && panelRef.current) {
-        const rect = data.originRect;
-        const panel = panelRef.current;
-        const panelRect = panel.getBoundingClientRect();
-
-        const scaleX = rect.width / Math.max(panelRect.width, 1);
-        const scaleY = rect.height / Math.max(panelRect.height, 1);
-        const translateX = rect.left - panelRect.left;
-        const translateY = rect.top - panelRect.top;
-
-        // set initial transform to thumbnail's geometry
-        panel.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
-        panel.style.willChange = "transform";
-
-        requestAnimationFrame(() => {
-          panel.style.transition = "transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1)";
-          panel.style.transform = "translate(0px, 0px) scale(1, 1)";
-        });
-      }
-
       if (data.mainMedia) {
         setSelectedMedia(data.mainMedia);
       } else if (data.images && data.images.length > 0) {
-        // Fallback to old format
         setSelectedMedia({
           src: data.images[0],
           type: "image",
@@ -266,7 +203,6 @@ export function ProjectModal({ open, data, onClose }: ProjectModalProps) {
     }
   }, [open, data]);
 
-  if (!open) return null;
   const portalTarget = typeof window !== "undefined" ? document.body : null;
   if (!portalTarget) return null;
 
@@ -291,79 +227,88 @@ export function ProjectModal({ open, data, onClose }: ProjectModalProps) {
 
   const allMedia = getAllMedia();
 
-  return createPortal(
-    <Backdrop onClick={requestClose}>
-      <Dialog
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        onClick={(e) => e.stopPropagation()}
-        style={{ transformOrigin: "top left" }}
+  return (
+    open &&
+    data &&
+    createPortal(
+      <Backdrop
+        onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
       >
-        <CurvedCloseContainer>
-          <CurvedText
-            text="close"
-            radius={90}
-            arc={120}
-            initialAngle={240}
-            color="var(--yellow-photo)"
-            onTextClick={requestClose}
-          />
-        </CurvedCloseContainer>
-        <Header>
-          <Title>{data?.title}</Title>
-        </Header>
-        <Body>
-          <MediaContainer>
-            {selectedMedia && (
-              <MainMedia>
-                {selectedMedia.type === "video" ? (
-                  <MainVideo
-                    src={selectedMedia.src}
-                    controls
-                    autoPlay
-                    muted
-                    loop
-                    aria-label={selectedMedia.alt || `${data?.title} video`}
-                  />
-                ) : (
-                  <MainImg
-                    src={selectedMedia.src}
-                    alt={selectedMedia.alt || `${data?.title} main image`}
-                  />
-                )}
-              </MainMedia>
-            )}
+        <Dialog
+          layoutId={data?.layoutId}
+          role="dialog"
+          aria-modal="true"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <CurvedCloseContainer>
+            <CurvedText
+              text="close"
+              radius={90}
+              arc={120}
+              initialAngle={240}
+              color="var(--yellow-photo)"
+              onTextClick={onClose}
+            />
+          </CurvedCloseContainer>
+          <Header>
+            <Title>{data?.title}</Title>
+          </Header>
+          <Body>
+            <MediaContainer>
+              {selectedMedia && (
+                <MainMedia>
+                  {selectedMedia.type === "video" ? (
+                    <MainVideo
+                      src={selectedMedia.src}
+                      controls
+                      autoPlay
+                      muted
+                      loop
+                      aria-label={selectedMedia.alt || `${data?.title} video`}
+                    />
+                  ) : (
+                    <MainImg
+                      src={selectedMedia.src}
+                      alt={selectedMedia.alt || `${data?.title} main image`}
+                    />
+                  )}
+                </MainMedia>
+              )}
 
-            {allMedia.length > 1 && (
-              <ThumbnailGrid>
-                {allMedia.map((media, i) => (
-                  <ThumbnailItem
-                    key={i}
-                    $isActive={selectedMedia?.src === media.src}
-                    onClick={() => setSelectedMedia(media)}
-                  >
-                    {media.type === "video" ? (
-                      <ThumbnailVideo
-                        src={media.src}
-                        muted
-                        aria-label={media.alt || `${data?.title} thumbnail ${i + 1}`}
-                      />
-                    ) : (
-                      <ThumbnailImg
-                        src={media.src}
-                        alt={media.alt || `${data?.title} thumbnail ${i + 1}`}
-                      />
-                    )}
-                  </ThumbnailItem>
-                ))}
-              </ThumbnailGrid>
-            )}
-          </MediaContainer>
-          <Description>{data?.description}</Description>
-        </Body>
-      </Dialog>
-    </Backdrop>,
-    portalTarget
+              {allMedia.length > 1 && (
+                <ThumbnailGrid>
+                  {allMedia.map((media, i) => (
+                    <ThumbnailItem
+                      key={i}
+                      $isActive={selectedMedia?.src === media.src}
+                      onClick={() => setSelectedMedia(media)}
+                    >
+                      {media.type === "video" ? (
+                        <ThumbnailVideo
+                          src={media.src}
+                          muted
+                          aria-label={media.alt || `${data?.title} thumbnail ${i + 1}`}
+                        />
+                      ) : (
+                        <ThumbnailImg
+                          src={media.src}
+                          alt={media.alt || `${data?.title} thumbnail ${i + 1}`}
+                        />
+                      )}
+                    </ThumbnailItem>
+                  ))}
+                </ThumbnailGrid>
+              )}
+            </MediaContainer>
+            <Description>{data?.description}</Description>
+          </Body>
+        </Dialog>
+      </Backdrop>,
+      portalTarget
+    )
   );
 }
