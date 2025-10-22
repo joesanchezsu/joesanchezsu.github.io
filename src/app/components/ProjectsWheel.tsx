@@ -35,7 +35,7 @@ const WheelContainer = styled.section`
 
 const WheelWrapper = styled.div`
   position: relative;
-  transform: translate(350px, 0px); /* static CSS transform */
+  transform: translate(350px, 0px); // static CSS transform
 `;
 
 const WorkText = styled.div`
@@ -92,7 +92,7 @@ export function ProjectsWheel({
 }) {
   const [open, setOpen] = useState(false);
   const [modalData, setModalData] = useState<ProjectModalData | undefined>();
-  // const translationOffset = { x: 350, y: 0 };
+
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const radius = isMobile ? 300 : 600;
 
@@ -103,7 +103,7 @@ export function ProjectsWheel({
 
   // Map scroll progress (0–1) → rotation degrees
   const wheelRotation = useTransform(scrollYProgress, [0, 1], [0, 250]);
-  const smoothRotation = useSpring(wheelRotation, { stiffness: 80, damping: 40 });
+  const smoothRotation = useSpring(wheelRotation, { stiffness: 100, damping: 40 });
 
   const curvedTextsContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -111,19 +111,6 @@ export function ProjectsWheel({
     () => projects.reverse().slice(0, Math.min(projects.length, 10)),
     []
   );
-
-  // const transformData = useMemo(() => {
-  //   return data.map((p, i) => {
-  //     const angleOffset = -108;
-  //     const angleDeg = angleOffset + (i * 360) / data.length || 1;
-  //     const x = radius * Math.cos((angleDeg * Math.PI) / 180);
-  //     const y = radius * Math.sin((angleDeg * Math.PI) / 180);
-  //     const scale = 1;
-  //     const rotation = angleDeg - 180;
-
-  //     return { x, y, scale, rotate: rotation };
-  //   });
-  // }, [data, radius]);
 
   const arr = data.map((p) => p.company).filter((c) => c !== undefined);
   const companies: CompanyInfo[] = Object.values(
@@ -202,18 +189,14 @@ export function ProjectsWheel({
               })}
             </ItemsContainer>
 
-            <AnimatePresence>
+            <ProjectModal open={open} data={modalData} onClose={handleCloseModal} />
+            {/* <AnimatePresence>
               {open && modalData && (
-                <ProjectModal open={open} data={modalData} onClose={handleCloseModal} />
               )}
-            </AnimatePresence>
+            </AnimatePresence> */}
           </WheelInner>
         </LayoutGroup>
       </WheelWrapper>
     </WheelContainer>
   );
 }
-
-// style={{
-//   transform: smoothRotation.to(r => `perspective(1000px) translate3d(${x}px, ${y}px, ${z}px) rotateY(${...}deg)`)
-// }}

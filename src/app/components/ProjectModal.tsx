@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { createPortal } from "react-dom";
 import CurvedText from "./CurvedText";
 
@@ -177,16 +177,25 @@ interface ProjectModalProps {
 }
 
 export function ProjectModal({ open, data, onClose }: ProjectModalProps) {
-  const [selectedMedia, setSelectedMedia] = React.useState<MediaItem | null>(null);
+  const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleClose = useCallback(() => {
+    setIsClosing(true);
+    setTimeout(() => {
+      onClose();
+      setIsClosing(false);
+    }, 300); // Slightly longer than animation duration to ensure it completes
+  }, [onClose]);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") handleClose();
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+  }, [open, handleClose]);
 
   // Set initial selected media when modal opens
   useEffect(() => {
@@ -232,14 +241,22 @@ export function ProjectModal({ open, data, onClose }: ProjectModalProps) {
     data &&
     createPortal(
       <Backdrop
-        onClick={onClose}
+        onClick={handleClose}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={isClosing ? { opacity: 0 } : { opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.25 }}
       >
         <Dialog
-          layoutId={data?.layoutId}
+          layoutId={isClosing ? undefined : data?.layoutId}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={
+            isClosing
+              ? { opacity: 0, y: 50, scale: 0.9, transition: { duration: 0.4 } }
+              : { opacity: 1, scale: 1 }
+          }
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.25 }}
           role="dialog"
           aria-modal="true"
           onClick={(e) => e.stopPropagation()}
@@ -251,7 +268,7 @@ export function ProjectModal({ open, data, onClose }: ProjectModalProps) {
               arc={120}
               initialAngle={240}
               color="var(--yellow-photo)"
-              onTextClick={onClose}
+              onTextClick={handleClose}
             />
           </CurvedCloseContainer>
           <Header>

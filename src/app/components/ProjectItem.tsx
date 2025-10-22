@@ -150,7 +150,7 @@ export const ProjectItem = ({
       layoutId={layoutId}
       aria-label={title}
       onClick={onClick}
-      style={{ x, y, rotate, scale: 1 }}
+      style={{ x, y, rotate }}
     >
       <Media $image={imageUrl} />
       <Overlay>{description ? <OverlayText>{description}</OverlayText> : null}</Overlay>
