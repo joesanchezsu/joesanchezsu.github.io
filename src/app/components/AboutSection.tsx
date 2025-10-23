@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { SocialLinks } from "./SocialLinks";
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
+import { useScroll, useMotionValueEvent } from "framer-motion";
 
 const Container = styled.section`
   max-width: 680px;
@@ -23,6 +24,10 @@ const ContentContainer = styled.div`
   justify-content: center;
   height: 100%;
   gap: 1rem;
+
+  @media (max-width: 450px) {
+    margin-top: 100px;
+  }
 `;
 
 const Content = styled.div`
@@ -77,19 +82,15 @@ const AvatarContainer = styled.div`
   flex-direction: column;
   min-width: 300px;
 `;
-const Avatar = styled.div`
+const Avatar = styled.div<{ $isHovered?: boolean }>`
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   border: 2px solid var(--yellow-photo);
-  width: 140px;
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-
-  ${Content}:hover & {
-    width: 300px;
-  }
+  width: ${({ $isHovered }) => ($isHovered ? "300px" : "140px")};
 
   @media (prefers-color-scheme: dark) {
     border: 2px solid var(--yellow-photo);
@@ -149,10 +150,6 @@ const ResumeLink = styled.a`
     display: flex;
     align-self: center;
   }
-
-  /* @media (prefers-color-scheme: dark) {
-    border-color: var(--yellow-photo);
-  } */
 `;
 
 const EyesIcon = styled.span`
@@ -170,11 +167,34 @@ const EyesIcon = styled.span`
   }
 `;
 
-export function AboutSection() {
+export function AboutSection({
+  scrollerRef,
+}: {
+  scrollerRef?: React.RefObject<HTMLDivElement | null>;
+}) {
   const nameRef = useRef<HTMLHeadingElement>(null);
   const shortName = "J E  Schz";
   const fullName = "John Eric Sánchez Suárez";
   const [isHovered, setIsHovered] = useState(false);
+  const isMobileOrTablet = typeof window !== "undefined" && window.innerWidth < 1659;
+
+  const { scrollYProgress } = useScroll({
+    container: scrollerRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Track scroll progress on mobile/tablet to trigger hover state
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (!isMobileOrTablet) return;
+
+    // If scrolled more than 3% down, show hover state
+    if (latest > 0.03) {
+      setIsHovered(true);
+    } else {
+      // Reset when back at top
+      setIsHovered(false);
+    }
+  });
 
   useEffect(() => {
     if (!nameRef.current) return;
@@ -274,10 +294,11 @@ export function AboutSection() {
               <NameContainer>{renderName(shortName, "short-char")}</NameContainer>
               <NameContainer>{renderName(fullName, "full-char")}</NameContainer>
             </DynamicName>
-            <Avatar>
+            <Avatar $isHovered={isHovered}>
               <Image
                 src="/images/avatar.jpg"
                 alt="John Eric Sánchez Suárez"
+                priority
                 width={300}
                 height={450}
               />

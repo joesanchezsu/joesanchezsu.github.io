@@ -57,7 +57,7 @@ const WorkText = styled.div`
   z-index: 1000;
   color: var(--yellow-photo);
 
-  @media (max-width: 400px) {
+  @media (max-width: 460px) {
     transform: translate(-80%, -50%) rotate(90deg);
   }
 `;

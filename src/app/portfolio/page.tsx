@@ -109,7 +109,7 @@ export default function PortfolioPage() {
     <Page>
       <ScrollArea ref={scrollerRef} id="portfolio-scroll">
         <StickyWheel>
-          <AboutSection />
+          <AboutSection scrollerRef={scrollerRef} />
           <ProjectsWrapper>
             {ready ? <ProjectsWheel scrollerRef={scrollerRef} /> : null}
           </ProjectsWrapper>
