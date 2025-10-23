@@ -81,7 +81,9 @@ const Footer = styled.footer`
 `;
 
 const FooterContent = styled.div`
+  display: flex;
   padding: 1rem;
+  font-size: 0.8rem;
   text-align: left;
   color: var(--gray-400);
 
@@ -90,7 +92,8 @@ const FooterContent = styled.div`
   }
 
   @media (max-width: 767px) {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
+    flex-direction: column;
   }
 `;
 
@@ -117,7 +120,10 @@ export default function PortfolioPage() {
         <Spacer />
         <Footer>
           <FooterContent>
-            <p>&copy; 2025 Made with ❤️ by John Eric Sánchez Suárez</p>
+            <p style={{ marginRight: "0.5rem" }}>
+              &copy; 2025 Made with ❤️ by John Eric Sánchez Suárez. All rights reserved -
+            </p>
+            <a href="/legal">Legal Notice</a>
           </FooterContent>
         </Footer>
       </ScrollArea>

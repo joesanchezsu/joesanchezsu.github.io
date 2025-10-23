@@ -306,12 +306,12 @@ export function AboutSection({
           </AvatarContainer>
           <BioContainer>
             <Bio>
-              I&apos;m a creative frontend developer and technologist with a background in
-              mechatronics and cognitive engineering. With over 6 years of experience,
-              I&apos;ve worked on web and mobile platforms, interactive installations, and
-              research prototypes. I bring together technical expertise and a
-              designer&apos;s eye to craft interfaces that are both functional and
-              visually engaging.
+              I&apos;m a creative frontend developer and technologist based in Bordeaux,
+              France with a background in mechatronics and cognitive engineering. With
+              over 6 years of experience, I&apos;ve worked on web and mobile platforms,
+              interactive installations, and research prototypes. I bring together
+              technical expertise and a designer&apos;s eye to craft interfaces that are
+              both functional and visually engaging.
             </Bio>
             <SocialLinks />
           </BioContainer>
