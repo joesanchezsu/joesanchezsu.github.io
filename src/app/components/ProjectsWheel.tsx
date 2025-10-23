@@ -8,9 +8,9 @@ import { ProjectModal, ProjectModalData } from "./ProjectModal";
 import { useState } from "react";
 import CurvedText from "./CurvedText";
 import {
-  AnimatePresence,
   LayoutGroup,
   motion,
+  useInView,
   useScroll,
   useSpring,
   useTransform,
@@ -35,7 +35,15 @@ const WheelContainer = styled.section`
 
 const WheelWrapper = styled.div`
   position: relative;
-  transform: translate(350px, 0px); // static CSS transform
+  transform: translate(350px, 0px);
+
+  @media (max-width: 1659px) {
+    transform: scale(0.7);
+  }
+
+  @media (max-width: 767px) {
+    transform: scale(0.5) translate(390px, 0px);
+  }
 `;
 
 const WorkText = styled.div`
@@ -48,12 +56,21 @@ const WorkText = styled.div`
   font-size: 76px;
   z-index: 1000;
   color: var(--yellow-photo);
+
+  @media (max-width: 400px) {
+    transform: translate(-80%, -50%) rotate(90deg);
+  }
 `;
 
 const WheelInner = styled.div`
   position: relative;
   width: 1000px;
   height: 1000px;
+
+  @media (max-width: 1000px) {
+    width: 600px;
+    height: 600px;
+  }
 `;
 
 const CenterCircle = styled(motion.div)`
@@ -66,6 +83,18 @@ const CenterCircle = styled(motion.div)`
   border: 2px solid var(--gray-400);
   background: rgba(0, 0, 0, 0);
   z-index: 0;
+
+  @media (max-width: 1000px) {
+    left: 0;
+    top: 0;
+  }
+
+  @media (max-width: 767px) {
+    left: 7%;
+    top: 7%;
+    width: 500px;
+    height: 500px;
+  }
 `;
 
 const ItemsContainer = styled.div`
@@ -92,17 +121,31 @@ export function ProjectsWheel({
 }) {
   const [open, setOpen] = useState(false);
   const [modalData, setModalData] = useState<ProjectModalData | undefined>();
+  const wheelContainerRef = useRef<HTMLDivElement | null>(null);
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-  const radius = isMobile ? 300 : 600;
+  const isTablet =
+    typeof window !== "undefined" &&
+    window.innerWidth >= 768 &&
+    window.innerWidth <= 1659;
+  const radius = isMobile ? 560 : 600;
 
   const { scrollYProgress } = useScroll({
     container: scrollerRef,
     offset: ["start start", "end end"],
   });
 
+  const isVisible = useInView(wheelContainerRef, {
+    amount: 0.2, // starts tracking when 100% is visible
+    once: false,
+  });
+
   // Map scroll progress (0–1) → rotation degrees
-  const wheelRotation = useTransform(scrollYProgress, [0, 1], [0, 250]);
+  const wheelRotation = useTransform(
+    scrollYProgress,
+    [isMobile || isTablet ? 0.5 : 0, 1],
+    [0, 250]
+  );
   const smoothRotation = useSpring(wheelRotation, { stiffness: 100, damping: 40 });
 
   const curvedTextsContainerRef = useRef<HTMLDivElement | null>(null);
@@ -138,7 +181,7 @@ export function ProjectsWheel({
   };
 
   return (
-    <WheelContainer>
+    <WheelContainer ref={wheelContainerRef}>
       <WheelWrapper>
         <LayoutGroup>
           <WheelInner>
@@ -148,7 +191,7 @@ export function ProjectsWheel({
                   <CurvedText
                     key={c.name}
                     text={c.name === "Betomorrow" ? c.name + " - " + c.role : c.name}
-                    radius={350}
+                    radius={isMobile ? 300 : 350}
                     arc={c.occurrences * (360 / data.length)}
                     initialAngle={
                       c.firstIndex * (360 / data.length) -
@@ -162,38 +205,36 @@ export function ProjectsWheel({
             <WorkText>Work</WorkText>
 
             <ItemsContainer>
-              {data.map((p, i) => {
-                const angleOffset = -108;
-                const baseAngle = angleOffset + (i * 360) / data.length;
+              {isVisible
+                ? data.map((p, i) => {
+                    const angleOffset = -108;
+                    const baseAngle = angleOffset + (i * 360) / data.length;
 
-                return (
-                  <ProjectItem
-                    key={p.slug}
-                    layoutId={p.slug}
-                    aria-label={p.title}
-                    title={p.title}
-                    period={p.period}
-                    description={p.shortDescription}
-                    imageUrl={p.thumbnail}
-                    baseAngle={baseAngle}
-                    radius={radius}
-                    wheelRotation={wheelRotation}
-                    onClick={() =>
-                      openProjectModal({
-                        ...p,
-                        layoutId: p.slug,
-                      })
-                    }
-                  />
-                );
-              })}
+                    return (
+                      <ProjectItem
+                        key={p.slug}
+                        layoutId={p.slug}
+                        aria-label={p.title}
+                        title={p.title}
+                        period={p.period}
+                        description={p.shortDescription}
+                        imageUrl={p.thumbnail}
+                        baseAngle={baseAngle}
+                        radius={radius}
+                        wheelRotation={wheelRotation}
+                        onClick={() =>
+                          openProjectModal({
+                            ...p,
+                            layoutId: p.slug,
+                          })
+                        }
+                      />
+                    );
+                  })
+                : null}
             </ItemsContainer>
 
             <ProjectModal open={open} data={modalData} onClose={handleCloseModal} />
-            {/* <AnimatePresence>
-              {open && modalData && (
-              )}
-            </AnimatePresence> */}
           </WheelInner>
         </LayoutGroup>
       </WheelWrapper>

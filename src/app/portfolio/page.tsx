@@ -12,6 +12,15 @@ const Page = styled.main`
 
 const ProjectsWrapper = styled.div`
   height: 100vh;
+
+  @media (max-height: 700px) {
+    height: 120vh;
+  }
+
+  // ipad mini aspect ratio
+  @media (width: 768px) and (height: 1024px) {
+    height: 110vh;
+  }
 `;
 
 const ScrollArea = styled.div`
@@ -24,49 +33,64 @@ const ScrollArea = styled.div`
 const StickyWheel = styled.div`
   position: sticky;
   top: 0;
-  height: 100vh;
 
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto auto;
 
+  @media (min-width: 768px) and (max-width: 1659px) {
+    height: 220vh;
+    grid-template-rows: minmax(auto, 100vh) minmax(100vh, auto);
+  }
+
   @media (min-width: 1660px) {
     grid-template-columns: minmax(420px, 1024px) 1fr;
     grid-template-rows: 100vh;
   }
+
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
 `;
 
 const Spacer = styled.div`
-  height: 3200px; /* controls scroll length */
+  height: 3200px; /* controls scroll length for wheel rotation */
+
+  @media (max-width: 1659px) {
+    height: 0px;
+  }
 `;
 
 const Footer = styled.footer`
-  /* border-top: 1px solid var(--gray-200); */
-  /* margin-top: 4rem; */
-
-  @media (prefers-color-scheme: dark) {
-    border-top-color: var(--gray-800);
+  @media (min-width: 1660px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
   }
 
-  .dark & {
-    border-top-color: var(--gray-800);
+  @media (max-width: 1659px) {
+    position: relative;
+    width: 100%;
+    padding: 1rem;
+    margin-top: auto;
   }
 `;
 
 const FooterContent = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
   padding: 1rem;
   text-align: left;
-  color: var(--gray-600);
+  color: var(--gray-400);
 
-  @media (prefers-color-scheme: dark) {
-    color: var(--gray-400);
+  @media (max-width: 1659px) {
+    padding: 0;
   }
 
-  .dark & {
-    color: var(--gray-400);
+  @media (max-width: 767px) {
+    font-size: 0.8rem;
   }
 `;
 
@@ -91,12 +115,12 @@ export default function PortfolioPage() {
           </ProjectsWrapper>
         </StickyWheel>
         <Spacer />
+        <Footer>
+          <FooterContent>
+            <p>&copy; 2025 Made with ❤️ by John Eric Sánchez Suárez</p>
+          </FooterContent>
+        </Footer>
       </ScrollArea>
-      <Footer>
-        <FooterContent>
-          <p>&copy; 2025 Made with ❤️ by John Eric Sánchez Suárez</p>
-        </FooterContent>
-      </Footer>
     </Page>
   );
 }

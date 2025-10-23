@@ -150,6 +150,10 @@ export const ProjectItem = ({
       layoutId={layoutId}
       aria-label={title}
       onClick={onClick}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
       style={{ x, y, rotate }}
     >
       <Media $image={imageUrl} />

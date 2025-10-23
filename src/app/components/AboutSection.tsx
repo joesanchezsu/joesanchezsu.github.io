@@ -11,6 +11,10 @@ const Container = styled.section`
   height: 100%;
   padding: 3rem;
   margin: 0 auto;
+
+  @media (max-width: 767px) {
+    padding: 1rem 1rem 3rem 1rem;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -26,6 +30,13 @@ const Content = styled.div`
   flex-direction: row;
   justify-content: center;
   gap: 2rem;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
 `;
 
 const DynamicName = styled.h2`
@@ -91,6 +102,11 @@ const BioContainer = styled.div`
   justify-content: center;
   gap: 2rem;
   margin-top: 60px;
+
+  @media (max-width: 767px) {
+    max-width: 250px;
+    margin-top: 20px;
+  }
 `;
 
 const Bio = styled.p`
@@ -98,8 +114,10 @@ const Bio = styled.p`
   font-size: 1.2rem;
   color: var(--gray-400);
 
-  @media (prefers-color-scheme: dark) {
-    color: var(--gray-400);
+  @media (max-width: 767px) {
+    min-width: 250px;
+    max-width: 250px;
+    font-size: 1rem;
   }
 `;
 
@@ -125,9 +143,16 @@ const ResumeLink = styled.a`
     will-change: color;
   }
 
-  @media (prefers-color-scheme: dark) {
-    border-color: var(--yellow-photo);
+  @media (max-width: 767px) {
+    margin-top: 0px;
+    margin-left: 0px;
+    display: flex;
+    align-self: center;
   }
+
+  /* @media (prefers-color-scheme: dark) {
+    border-color: var(--yellow-photo);
+  } */
 `;
 
 const EyesIcon = styled.span`
