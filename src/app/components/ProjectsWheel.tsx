@@ -136,7 +136,7 @@ export function ProjectsWheel({
   });
 
   const isVisible = useInView(wheelContainerRef, {
-    amount: 0.2, // starts tracking when 100% is visible
+    amount: 0.2, // starts tracking when 20% is visible
     once: false,
   });
 
@@ -146,6 +146,7 @@ export function ProjectsWheel({
     [isMobile || isTablet ? 0.5 : 0, 1],
     [0, 250]
   );
+
   const smoothRotation = useSpring(wheelRotation, { stiffness: 100, damping: 40 });
 
   const curvedTextsContainerRef = useRef<HTMLDivElement | null>(null);
@@ -191,7 +192,7 @@ export function ProjectsWheel({
                   <CurvedText
                     key={c.name}
                     text={c.name === "Betomorrow" ? c.name + " - " + c.role : c.name}
-                    radius={isMobile ? 300 : 350}
+                    radius={isMobile ? 280 : 350}
                     arc={c.occurrences * (360 / data.length)}
                     initialAngle={
                       c.firstIndex * (360 / data.length) -

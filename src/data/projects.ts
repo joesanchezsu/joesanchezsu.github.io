@@ -27,7 +27,7 @@ export const projects: Project[] = [
     description:
       "Internal corporate training management platform that enables organizations to create, manage, and track employee training programs. The platform features course creation tools, progress tracking, certification management, and comprehensive analytics to help companies optimize their learning and development initiatives.",
     company: "Betomorrow",
-    role: "Fullstack Developer",
+    role: "Software Developer",
     period: "2022 - 2024",
     location: "Bordeaux, France",
     tech: ["React.js", "React Native", "TypeScript", "Firebase", "Node.js", "Express"],
@@ -47,7 +47,7 @@ export const projects: Project[] = [
     description:
       "African social network dedicated to online education and knowledge sharing. The platform connects learners across Africa, providing access to educational content, peer-to-peer learning opportunities, and community-driven knowledge exchange. Features include content creation tools, discussion forums, and progress tracking.",
     company: "Betomorrow",
-    role: "Fullstack Developer",
+    role: "Software Developer",
     period: "2021 - 2023",
     location: "Remote",
     tech: ["React.js", "GraphQL", "TypeScript", "Apollo Client", "Node.js", "MongoDB"],
@@ -67,7 +67,7 @@ export const projects: Project[] = [
     description:
       "Web & Mobile application for enriched visualization of Belin Education's digital manual. The app provides interactive, multimedia content that enhances the traditional textbook experience with videos, animations, interactive exercises, and personalized learning paths for students.",
     company: "Betomorrow",
-    role: "Fullstack Developer",
+    role: "Software Developer",
     period: "2020 - 2022",
     location: "Bordeaux, France",
     tech: ["React.js", "React Native", "TypeScript", "Firebase", "Redux", "Expo"],
@@ -84,7 +84,7 @@ export const projects: Project[] = [
     description:
       "Research project in the form of a web application using interactive maps (Mapbox, GIS) to identify sections of pipeline networks needing inspection or repair. The application facilitates statistical analysis by assembling and processing existing data from multiple sources and regions of France, helping optimize maintenance operations.",
     company: "Betomorrow",
-    role: "Fullstack Developer",
+    role: "Software Developer",
     period: "2019 - 2021",
     location: "Bordeaux, France",
     tech: ["Angular", "Mapbox", "GIS", "Kotlin", "Spring Boot", "PostgreSQL"],
