@@ -32,8 +32,9 @@ const Dialog = styled(motion.div)`
   border-bottom-left-radius: 0px;
   overflow: visible;
 
-  @media (prefers-color-scheme: dark) {
-    border: 2px solid var(--yellow-photo);
+  @media (max-width: 768px) {
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
   }
 `;
 
@@ -42,15 +43,23 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 1rem 3rem;
+  border-color: var(--gray-700);
 
-  @media (prefers-color-scheme: dark) {
-    border-color: var(--gray-700);
+  @media (max-width: 768px) {
+    padding: 0.5rem 1rem;
   }
 `;
 
 const Title = styled.h3`
-  font-size: 4.5rem;
+  font-size: 4rem;
   font-weight: 700;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
+  @media (min-width: 768px) and (max-width: 1000px) {
+    font-size: 2rem;
+  }
 `;
 
 const CurvedCloseContainer = styled.div`
@@ -60,6 +69,11 @@ const CurvedCloseContainer = styled.div`
   width: 50px;
   height: 50px;
   z-index: 10;
+
+  @media (max-width: 768px) {
+    top: -33px;
+    right: 101px;
+  }
 `;
 
 const Body = styled.div`
@@ -68,8 +82,13 @@ const Body = styled.div`
   padding: 1rem 3rem 3rem;
   height: 100%;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1000px) {
     grid-template-columns: 1.5fr 1fr;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem 1rem;
+    gap: 1rem;
   }
 `;
 
@@ -77,8 +96,16 @@ const Description = styled.p`
   font-size: 1.2rem;
   color: var(--gray-300);
 
-  @media (prefers-color-scheme: dark) {
-    color: var(--gray-300);
+  @media (max-width: 767px) {
+    font-size: 0.8rem;
+    max-height: 250px;
+    overflow: auto;
+  }
+
+  @media (min-width: 768px) and (max-width: 1000px) {
+    font-size: 1rem;
+    max-height: 380px;
+    overflow: auto;
   }
 `;
 
@@ -114,15 +141,20 @@ const MainVideo = styled.video`
 `;
 
 const ThumbnailGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  display: flex;
+  justify-content: center;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    gap: 5px;
+  }
 `;
 
 const ThumbnailItem = styled.div<{ $isActive?: boolean }>`
   position: relative;
-  padding-top: 75%; // 4:3 aspect ratio for thumbnails
-  background: var(--gray-100);
+  height: 100px;
+  width: 100px;
+  background: var(--gray-800);
   overflow: hidden;
   cursor: pointer;
   border: 4px solid
@@ -133,8 +165,11 @@ const ThumbnailItem = styled.div<{ $isActive?: boolean }>`
     border-color: var(--yellow-photo);
   }
 
-  @media (prefers-color-scheme: dark) {
-    background: var(--gray-800);
+  @media (max-width: 768px) {
+    height: 50px;
+    width: 50px;
+    border: 2px solid
+      ${({ $isActive }) => ($isActive ? "var(--yellow-photo)" : "transparent")};
   }
 `;
 
