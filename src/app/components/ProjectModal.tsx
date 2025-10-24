@@ -64,15 +64,15 @@ const Title = styled.h3`
 
 const CurvedCloseContainer = styled.div`
   position: absolute;
-  top: -19px;
-  right: 113px;
+  top: -10px;
+  right: 120px;
   width: 50px;
   height: 50px;
   z-index: 10;
 
   @media (max-width: 768px) {
-    top: -33px;
-    right: 101px;
+    top: -25px;
+    right: 110px;
   }
 `;
 
@@ -214,6 +214,7 @@ interface ProjectModalProps {
 export function ProjectModal({ open, data, onClose }: ProjectModalProps) {
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
   const [isClosing, setIsClosing] = useState(false);
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const handleClose = useCallback(() => {
     setIsClosing(true);
@@ -302,6 +303,7 @@ export function ProjectModal({ open, data, onClose }: ProjectModalProps) {
               radius={90}
               arc={120}
               initialAngle={240}
+              fontSize={isMobile ? "16px" : "24px"}
               color="var(--yellow-photo)"
               onTextClick={handleClose}
             />
