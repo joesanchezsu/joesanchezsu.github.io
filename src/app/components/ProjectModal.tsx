@@ -71,7 +71,7 @@ const CurvedCloseContainer = styled.div`
   z-index: 10;
 
   @media (max-width: 768px) {
-    top: -25px;
+    top: -20px;
     right: 110px;
   }
 `;
