@@ -112,7 +112,6 @@ const Description = styled.p`
 const MediaContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 1rem;
   height: 100%;
 `;

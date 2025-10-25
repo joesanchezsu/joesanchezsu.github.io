@@ -78,9 +78,9 @@ const CharSpan = styled.span`
 const AvatarContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: column;
-  min-width: 300px;
+  min-width: 310px;
 `;
 const Avatar = styled.div<{ $isHovered?: boolean }>`
   cursor: pointer;
@@ -90,7 +90,7 @@ const Avatar = styled.div<{ $isHovered?: boolean }>`
   overflow: hidden;
   border: 2px solid var(--yellow-photo);
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  width: ${({ $isHovered }) => ($isHovered ? "300px" : "140px")};
+  width: ${({ $isHovered }) => ($isHovered ? "300px" : "150px")};
 
   @media (prefers-color-scheme: dark) {
     border: 2px solid var(--yellow-photo);
@@ -122,12 +122,30 @@ const Bio = styled.p`
   }
 `;
 
+const LinksContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 227px;
+`;
+
+const ExperimentsLink = styled.a`
+  position: relative;
+  padding: 5px;
+  font-weight: 700;
+  color: var(--yellow-photo);
+  font-size: 1.25rem;
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--yellow-photo-hover);
+    transition: color 300ms ease;
+    will-change: color;
+  }
+`;
+
 const ResumeLink = styled.a`
   position: relative;
-  margin-top: -4px;
-  margin-left: 92px;
-  display: inline-flex;
-  align-self: flex-start;
   padding: 5px;
   font-weight: 700;
   color: var(--yellow-photo);
@@ -156,7 +174,7 @@ const EyesIcon = styled.span`
   position: absolute;
   font-size: 2rem;
   margin-top: -7px;
-  margin-left: -1px;
+  margin-left: -30px;
   transform: scale(0);
   transition: transform 250ms ease;
   will-change: transform;
@@ -299,8 +317,8 @@ export function AboutSection({
                 src="/images/avatar.jpg"
                 alt="John Eric Sánchez Suárez"
                 priority
-                width={300}
-                height={450}
+                width={310}
+                height={470}
               />
             </Avatar>
           </AvatarContainer>
@@ -316,15 +334,20 @@ export function AboutSection({
             <SocialLinks />
           </BioContainer>
         </Content>
-        <ResumeLink
-          href="/docs/resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Open CV in a new tab"
-        >
-          <span>CV</span>
-          <EyesIcon>👀</EyesIcon>
-        </ResumeLink>
+        <LinksContainer>
+          <ResumeLink
+            href="/docs/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open CV in a new tab"
+          >
+            <span>CV</span>
+            <EyesIcon>👀</EyesIcon>
+          </ResumeLink>
+          <ExperimentsLink href="/experiments" aria-label="Experiments">
+            Experiments
+          </ExperimentsLink>
+        </LinksContainer>
       </ContentContainer>
     </Container>
   );
