@@ -127,6 +127,10 @@ const LinksContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 227px;
+
+  @media (max-width: 1199px) {
+    display: none;
+  }
 `;
 
 const ExperimentsLink = styled.a`
@@ -194,16 +198,27 @@ export function AboutSection({
   const shortName = "J E  Schz";
   const fullName = "John Eric Sánchez Suárez";
   const [isHovered, setIsHovered] = useState(false);
-  const isMobileOrTablet = typeof window !== "undefined" && window.innerWidth < 1659;
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if we're on desktop with ProjectsWheel (>= 1200px)
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1200);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     container: scrollerRef,
     offset: ["start start", "end end"],
   });
 
-  // Track scroll progress on mobile/tablet to trigger hover state
+  // Track scroll progress on desktop with wheel (>= 1200px and <= 1659px) to trigger hover state
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    if (!isMobileOrTablet) return;
+    // Only apply scroll-based hover on medium screens (1200-1659px) where wheel is adjacent
+    if (isMobile || window.innerWidth >= 1660) return;
 
     // If scrolled more than 3% down, show hover state
     if (latest > 0.03) {

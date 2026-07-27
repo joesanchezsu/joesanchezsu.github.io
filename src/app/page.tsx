@@ -21,6 +21,10 @@ const ProjectsWrapper = styled.div`
   @media (width: 768px) and (height: 1024px) {
     height: 110vh;
   }
+
+  @media (max-width: 1199px) {
+    display: none;
+  }
 `;
 
 const ScrollArea = styled.div`
@@ -28,6 +32,11 @@ const ScrollArea = styled.div`
   height: 100vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+
+  @media (max-width: 1199px) {
+    overflow-y: visible;
+    height: auto;
+  }
 `;
 
 const StickyWheel = styled.div`
@@ -38,7 +47,7 @@ const StickyWheel = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: auto auto;
 
-  @media (min-width: 768px) and (max-width: 1659px) {
+  @media (min-width: 1200px) and (max-width: 1659px) {
     height: 220vh;
     grid-template-rows: minmax(auto, 100vh) minmax(100vh, auto);
   }
@@ -48,10 +57,10 @@ const StickyWheel = styled.div`
     grid-template-rows: 100vh;
   }
 
-  @media (max-width: 767px) {
-    display: flex;
-    flex-direction: column;
+  @media (max-width: 1199px) {
+    display: block;
     position: relative;
+    height: auto;
   }
 `;
 
@@ -97,7 +106,7 @@ const FooterContent = styled.div`
   }
 `;
 
-export default function PortfolioPage() {
+export default function HomePage() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
 
@@ -108,6 +117,7 @@ export default function PortfolioPage() {
       setReady(true);
     }
   }, []);
+
   return (
     <Page>
       <ScrollArea ref={scrollerRef} id="portfolio-scroll">
